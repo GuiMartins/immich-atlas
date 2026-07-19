@@ -1,0 +1,18 @@
+services:
+  immich-atlas:
+    image: ghcr.io/guimartins/immich-atlas:latest
+    container_name: immich-atlas
+    restart: unless-stopped
+    ports:
+      - "2284:8080"
+    volumes:
+      - ./data:/appdata
+      # Optional: mount your Immich upload folder read-only to enable
+      # the "disk usage by folder" section. Adjust the host path.
+      # - /path/to/immich/upload:/upload:ro
+    environment: {}
+      # All settings can be configured in the web UI on first run.
+      # Environment variables take precedence over the UI if you prefer them:
+      # IMMICH_URL: http://192.168.1.10:2283
+      # IMMICH_API_KEY: your-api-key
+      # REFRESH_HOURS: 24

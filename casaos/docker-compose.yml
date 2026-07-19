@@ -1,0 +1,58 @@
+# CasaOS / ZimaOS app manifest for Immich Atlas
+# (format compatible with the BigBearCasaOS app store)
+name: immich-atlas
+services:
+  immich-atlas:
+    image: ghcr.io/guimartins/immich-atlas:latest
+    container_name: immich-atlas
+    restart: unless-stopped
+    ports:
+      - target: 8080
+        published: "2284"
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: /DATA/AppData/immich-atlas/data
+        target: /appdata
+      # Optional: bind your Immich upload folder (read-only) to enable disk stats
+      # - type: bind
+      #   source: /DATA/AppData/big-bear-immich/immich/upload
+      #   target: /upload
+      #   read_only: true
+    x-casaos:
+      volumes:
+        - container: /appdata
+          description:
+            en_us: Atlas data (settings and cached report)
+      ports:
+        - container: "8080"
+          description:
+            en_us: Web UI port
+x-casaos:
+  architectures:
+    - amd64
+    - arm64
+  main: immich-atlas
+  author: GuiMartins
+  category: Utilities
+  description:
+    en_us: >-
+      Storage & library analytics dashboard for your Immich server. See how much
+      space photos and videos take, album and people sizes, timeline of your
+      library, largest videos, file types, cameras and per-user usage — all in a
+      clean auto-refreshing web UI.
+  developer: GuiMartins
+  icon: https://raw.githubusercontent.com/GuiMartins/immich-atlas/main/icon.svg
+  screenshot_link: []
+  tagline:
+    en_us: Insights and storage analytics for Immich
+  thumbnail: ""
+  title:
+    en_us: Immich Atlas
+  tips:
+    before_install:
+      en_us: >-
+        You will need an Immich API key (Immich → Account Settings → API Keys).
+        Open the web UI after install and paste your server URL and key.
+  index: /
+  port_map: "2284"
