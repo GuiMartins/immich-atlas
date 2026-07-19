@@ -6,36 +6,61 @@
 <title>Immich Atlas</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🗺️</text></svg>">
 <style>
-:root { color-scheme: light dark; }
-body {
+:root {
+  color-scheme: light dark;
   --surface: #fcfcfb; --page: #f9f9f7; --ink: #0b0b0b; --ink2: #52514e; --muted: #898781;
   --grid: #e1e0d9; --baseline: #c3c2b7; --ring: rgba(11,11,11,0.10);
   --s1: #2a78d6; --s2: #1baf7a; --s3: #eda100; --s5: #4a3aa7; --s6: #e34948; --s8: #eb6834;
-  margin: 0; background: var(--page); color: var(--ink);
-  font-family: system-ui, -apple-system, "Segoe UI", sans-serif; font-size: 15px; line-height: 1.5;
 }
-@media (prefers-color-scheme: dark) { body {
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --surface: #1a1a19; --page: #0d0d0d; --ink: #ffffff; --ink2: #c3c2b7; --muted: #898781;
+    --grid: #2c2c2a; --baseline: #383835; --ring: rgba(255,255,255,0.10);
+    --s1: #3987e5; --s2: #199e70; --s3: #c98500; --s5: #9085e9; --s6: #e66767; --s8: #d95926;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
   --surface: #1a1a19; --page: #0d0d0d; --ink: #ffffff; --ink2: #c3c2b7; --muted: #898781;
   --grid: #2c2c2a; --baseline: #383835; --ring: rgba(255,255,255,0.10);
   --s1: #3987e5; --s2: #199e70; --s3: #c98500; --s5: #9085e9; --s6: #e66767; --s8: #d95926;
-} }
+}
+:root[data-theme="light"] {
+  color-scheme: light;
+  --surface: #fcfcfb; --page: #f9f9f7; --ink: #0b0b0b; --ink2: #52514e; --muted: #898781;
+  --grid: #e1e0d9; --baseline: #c3c2b7; --ring: rgba(11,11,11,0.10);
+  --s1: #2a78d6; --s2: #1baf7a; --s3: #eda100; --s5: #4a3aa7; --s6: #e34948; --s8: #eb6834;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--page); color: var(--ink);
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif; font-size: 15px; line-height: 1.5;
+}
 .wrap { max-width: 1100px; margin: 0 auto; padding: 32px 20px 64px; }
 h1 { font-size: 26px; margin: 0 0 4px; }
 .sub { color: var(--ink2); margin-bottom: 8px; }
-.toolbar { display: flex; align-items: center; gap: 14px; margin-bottom: 28px; flex-wrap: wrap; }
+.toolbar { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; flex-wrap: wrap; }
 .toolbar .when { color: var(--muted); font-size: 13px; }
+.toolbar .spacer { flex: 1 1 auto; }
 button {
   background: var(--s1); color: #fff; border: 0; border-radius: 8px; padding: 8px 18px;
   font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit;
 }
 button.ghost { background: transparent; color: var(--ink2); border: 1px solid var(--ring); font-weight: 500; }
+button.icon {
+  background: transparent; border: 1px solid var(--ring); color: var(--ink2);
+  width: 36px; height: 36px; padding: 0; display: inline-flex; align-items: center; justify-content: center; border-radius: 8px;
+}
+button.icon svg { width: 18px; height: 18px; }
 button:disabled { opacity: .5; cursor: default; }
 .progress { color: var(--ink2); font-size: 13px; }
 .progress .spin { display: inline-block; animation: spin 1s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
-h2 { font-size: 18px; margin: 40px 0 12px; }
-.card { background: var(--surface); border: 1px solid var(--ring); border-radius: 10px; padding: 18px 20px; }
-.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+h2 { font-size: 16px; font-weight: 650; margin: 28px 0 12px; }
+h2:first-child { margin-top: 0; }
+.card { background: var(--surface); border: 1px solid var(--ring); border-radius: 10px; padding: 18px 20px; margin-bottom: 20px; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 20px; }
 .tile { background: var(--surface); border: 1px solid var(--ring); border-radius: 10px; padding: 14px 16px; }
 .tile .v { font-size: 24px; font-weight: 650; } .tile .l { color: var(--ink2); font-size: 13px; }
 .tile .d { color: var(--muted); font-size: 12px; }
@@ -60,11 +85,24 @@ svg text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
 .setup { max-width: 460px; margin: 40px auto; }
 .setup label { display: block; font-size: 13px; color: var(--ink2); margin: 14px 0 4px; }
 .setup input {
-  width: 100%; box-sizing: border-box; padding: 9px 12px; font-size: 14px; font-family: inherit;
+  width: 100%; padding: 9px 12px; font-size: 14px; font-family: inherit;
   background: var(--page); color: var(--ink); border: 1px solid var(--ring); border-radius: 8px;
 }
 .setup .err { color: var(--s6); font-size: 13px; margin-top: 10px; min-height: 18px; }
 .setup .actions { margin-top: 18px; display: flex; gap: 10px; }
+.tabbar {
+  display: flex; gap: 4px; border-bottom: 1px solid var(--grid); margin-bottom: 24px;
+  overflow-x: auto; scrollbar-width: none;
+}
+.tabbar::-webkit-scrollbar { display: none; }
+.tab {
+  background: transparent; color: var(--ink2); font-weight: 500; font-size: 14px;
+  border: 0; border-bottom: 2px solid transparent; border-radius: 0;
+  padding: 10px 14px; white-space: nowrap; cursor: pointer;
+}
+.tab:hover { color: var(--ink); }
+.tab[aria-selected="true"] { color: var(--s1); border-bottom-color: var(--s1); font-weight: 650; }
+.panel[hidden] { display: none; }
 </style>
 </head>
 <body>
@@ -76,12 +114,40 @@ svg text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
     <button class="ghost" onclick="showSettings()">Settings</button>
     <span class="when" id="when"></span>
     <span class="progress" id="prog"></span>
+    <span class="spacer"></span>
+    <button class="icon" id="theme-btn" onclick="toggleTheme()" aria-label="Toggle color theme" title="Toggle color theme"></button>
   </div>
+  <div id="tabbar" class="tabbar" role="tablist" style="display:none"></div>
   <div id="content"><div class="empty">Loading…</div></div>
 </div>
 <script>
 'use strict';
 const $ = id => document.getElementById(id);
+
+// ---------------- theme ----------------
+const SUN_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
+const MOON_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/></svg>';
+function effectiveTheme() {
+  const stored = (() => { try { return localStorage.getItem('atlas-theme'); } catch { return null; } })();
+  if (stored === 'light' || stored === 'dark') return stored;
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
+function updateThemeIcon() {
+  const btn = $('theme-btn');
+  if (!btn) return;
+  btn.innerHTML = effectiveTheme() === 'dark' ? MOON_SVG : SUN_SVG;
+}
+function toggleTheme() {
+  const next = effectiveTheme() === 'dark' ? 'light' : 'dark';
+  try { localStorage.setItem('atlas-theme', next); } catch {}
+  document.documentElement.setAttribute('data-theme', next);
+  updateThemeIcon();
+}
+updateThemeIcon();
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+  try { if (!localStorage.getItem('atlas-theme')) updateThemeIcon(); } catch {}
+});
+
 const fmtN = n => (n ?? 0).toLocaleString('en-US');
 const fmtPct = n => n.toLocaleString('en-US', { maximumFractionDigits: 1 });
 function fmtB(b) {
@@ -106,40 +172,59 @@ function barTd(pct, color) {
   return `<td class="barbg"><div class="bar" style="width:${pct}%;background:${color}"></div></td>`;
 }
 
-function render(rep) {
-  const d = rep.data, t = d.totals;
-  const totalCount = t.photoCount + t.videoCount;
-  const totalBytes = t.photoBytes + t.videoBytes;
-  $('serverline').textContent = `${d.server.url} · Immich ${d.server.version}`;
-  $('when').textContent = `Updated ${new Date(rep.generatedAt).toLocaleString()}`;
+// ---------------- tabs ----------------
+const TABS = [
+  { key: 'overview', label: 'Overview' },
+  { key: 'storage', label: 'Storage' },
+  { key: 'timeline', label: 'Timeline' },
+  { key: 'albums', label: 'Albums' },
+  { key: 'people', label: 'People' },
+  { key: 'files', label: 'Files' },
+  { key: 'videos', label: 'Videos' },
+  { key: 'users', label: 'Users' },
+];
+let activeTab = 'overview';
+function switchTab(key) {
+  activeTab = key;
+  for (const t of TABS) {
+    const btn = $('tab-' + t.key), panel = $('panel-' + t.key);
+    if (!btn || !panel) continue;
+    const on = t.key === key;
+    btn.setAttribute('aria-selected', String(on));
+    panel.hidden = !on;
+  }
+}
+
+function buildSections(d, t, totalCount, totalBytes) {
+  const s = {};
+
   const vh = Math.floor(t.videoSeconds / 3600), vm = Math.floor((t.videoSeconds % 3600) / 60);
-  let h = '';
-
-  h += `<div class="tiles">
-    ${tile(fmtN(totalCount), 'total items')}
-    ${tile(fmtN(t.photoCount), 'photos', fmtB(t.photoBytes))}
-    ${tile(fmtN(t.videoCount), 'videos', `${fmtB(t.videoBytes)} · ${vh}h${String(vm).padStart(2, '0')} total runtime`)}
-    ${tile(fmtB(totalBytes), 'originals size')}
-    ${tile(fmtN(t.favCount), 'favorites')}
-    ${tile(fmtN(t.albumCount), 'albums')}
-    ${tile(fmtN(t.peopleTotal), 'people recognized')}
-  </div>`;
-
   const pn = totalCount ? 100 * t.photoCount / totalCount : 0;
   const pb = totalBytes ? 100 * t.photoBytes / totalBytes : 0;
-  h += `<h2>Photos × videos</h2><div class="card">
-    <div style="color:var(--ink2);font-size:13px;margin-bottom:6px">Count — photos ${fmtPct(pn)}% · videos ${fmtPct(100 - pn)}%</div>
-    <div class="stack"><div style="width:${pn}%;background:var(--s1)"></div><div style="width:${100 - pn}%;background:var(--s2)"></div></div>
-    <div style="color:var(--ink2);font-size:13px;margin:14px 0 6px">Disk space — photos ${fmtPct(pb)}% (${fmtB(t.photoBytes)}) · videos ${fmtPct(100 - pb)}% (${fmtB(t.videoBytes)})</div>
-    <div class="stack"><div style="width:${pb}%;background:var(--s1)"></div><div style="width:${100 - pb}%;background:var(--s2)"></div></div>
-    <div class="legend"><span><i class="dot" style="background:var(--s1)"></i>Photos</span><span><i class="dot" style="background:var(--s2)"></i>Videos</span></div>
-  </div>`;
+  s.overview = `
+    <div class="tiles">
+      ${tile(fmtN(totalCount), 'total items')}
+      ${tile(fmtN(t.photoCount), 'photos', fmtB(t.photoBytes))}
+      ${tile(fmtN(t.videoCount), 'videos', `${fmtB(t.videoBytes)} · ${vh}h${String(vm).padStart(2, '0')} total runtime`)}
+      ${tile(fmtB(totalBytes), 'originals size')}
+      ${tile(fmtN(t.favCount), 'favorites')}
+      ${tile(fmtN(t.albumCount), 'albums')}
+      ${tile(fmtN(t.peopleTotal), 'people recognized')}
+    </div>
+    <h2>Photos × videos</h2>
+    <div class="card">
+      <div style="color:var(--ink2);font-size:13px;margin-bottom:6px">Count — photos ${fmtPct(pn)}% · videos ${fmtPct(100 - pn)}%</div>
+      <div class="stack"><div style="width:${pn}%;background:var(--s1)"></div><div style="width:${100 - pn}%;background:var(--s2)"></div></div>
+      <div style="color:var(--ink2);font-size:13px;margin:14px 0 6px">Disk space — photos ${fmtPct(pb)}% (${fmtB(t.photoBytes)}) · videos ${fmtPct(100 - pb)}% (${fmtB(t.videoBytes)})</div>
+      <div class="stack"><div style="width:${pb}%;background:var(--s1)"></div><div style="width:${100 - pb}%;background:var(--s2)"></div></div>
+      <div class="legend"><span><i class="dot" style="background:var(--s1)"></i>Photos</span><span><i class="dot" style="background:var(--s2)"></i>Videos</span></div>
+    </div>`;
 
   if (d.diskFolders && d.diskFolders.length) {
-    const dt2 = d.diskFolders.reduce((s, f) => s + f.bytes, 0);
-    const df = d.diskFolders.reduce((s, f) => s + f.files, 0);
+    const dt2 = d.diskFolders.reduce((a, f) => a + f.bytes, 0);
+    const df = d.diskFolders.reduce((a, f) => a + f.files, 0);
     const pal = ['var(--s1)', 'var(--s2)', 'var(--s3)', 'var(--s5)', 'var(--s6)', 'var(--s8)'];
-    h += `<h2>Disk usage by folder</h2><div class="card">
+    s.storage = `<div class="card">
       <div style="color:var(--ink2);font-size:13px;margin-bottom:10px">Total in the Immich folder: <b>${fmtB(dt2)}</b> across ${fmtN(df)} files</div>
       <div class="stack">${d.diskFolders.map((f, i) => `<div style="width:${Math.max(0.15, 100 * f.bytes / dt2)}%;background:${pal[i % pal.length]}" title="${esc(f.label)}: ${fmtB(f.bytes)}"></div>`).join('')}</div>
       <div class="legend">${d.diskFolders.map((f, i) => `<span><i class="dot" style="background:${pal[i % pal.length]}"></i>${esc(f.label)}</span>`).join('')}</div>
@@ -149,8 +234,11 @@ function render(rep) {
       </table></div>
       ${d.storage ? `<div class="note">Server disk: ${esc(d.storage.diskUse)} used of ${esc(d.storage.diskSize)} (${esc(d.storage.diskAvailable)} free)</div>` : ''}
     </div>`;
+  } else {
+    s.storage = '<div class="card" style="color:var(--ink2)">The Immich upload folder is not mounted, so per-folder disk usage isn\'t available. Mount it read-only at /upload to enable this tab — see Settings.</div>';
   }
 
+  let timelineHtml = '';
   if (d.byMonth && d.byMonth.length > 1) {
     const bw = 14, gap = 2, x0 = 8, plotH = 170;
     const n = d.byMonth.length;
@@ -179,77 +267,101 @@ function render(rep) {
         lastYear = yr;
       }
     });
-    h += `<h2>Timeline — items per month</h2><div class="card scroll">
+    timelineHtml += `<div class="card scroll">
       <svg width="${cw}" height="220" role="img" aria-label="Items per month">${svg}</svg>
       <div class="legend"><span><i class="dot" style="background:var(--s1)"></i>Photos</span><span><i class="dot" style="background:var(--s2)"></i>Videos</span></div>
       ${t.noDateCount ? `<div class="note">${fmtN(t.noDateCount)} items without a date are not shown.</div>` : ''}
     </div>`;
   }
-
   if (d.byYear && d.byYear.length) {
     const maxB = Math.max(...d.byYear.map(y => y.bytes), 1);
-    h += `<h2>By year</h2><div class="card scroll"><table>
+    timelineHtml += `<h2>By year</h2><div class="card scroll"><table>
       <tr><th>Year</th><th class="num">Photos</th><th class="num">Videos</th><th class="num">Total</th><th class="num">Size</th><th></th></tr>
       ${d.byYear.map(y => `<tr><td class="mono">${y.key}</td><td class="num">${fmtN(y.photos)}</td><td class="num">${fmtN(y.videos)}</td><td class="num">${fmtN(y.count)}</td><td class="num">${fmtB(y.bytes)}</td>${barTd(100 * y.bytes / maxB, 'var(--s1)')}</tr>`).join('')}
     </table></div>`;
   }
+  s.timeline = timelineHtml || '<div class="card" style="color:var(--ink2)">Not enough dated items to build a timeline.</div>';
 
-  h += '<h2>Albums</h2>';
   if (d.albums && d.albums.length) {
     const maxB = Math.max(...d.albums.map(a => a.bytes), 1);
-    h += `<div class="card scroll"><table>
+    s.albums = `<div class="card scroll"><table>
       <tr><th>Album</th><th class="num">Items</th><th class="num">Photos</th><th class="num">Videos</th><th class="num">Size</th><th></th></tr>
       ${d.albums.map(a => `<tr><td>${esc(a.name)}${a.shared ? ' <span class="tag">shared</span>' : ''}</td><td class="num">${fmtN(a.count)}</td><td class="num">${fmtN(a.photos)}</td><td class="num">${fmtN(a.videos)}</td><td class="num">${fmtB(a.bytes)}</td>${barTd(100 * a.bytes / maxB, 'var(--s5)')}</tr>`).join('')}
     </table></div>`;
-  } else h += '<div class="card" style="color:var(--ink2)">No albums found.</div>';
+  } else s.albums = '<div class="card" style="color:var(--ink2)">No albums found.</div>';
 
-  h += '<h2>People (facial recognition)</h2>';
   if (d.people && d.people.length) {
     const maxC = Math.max(...d.people.map(p => p.count), 1);
-    h += `<div class="card scroll">
+    s.people = `<div class="card scroll">
       <div style="color:var(--ink2);font-size:13px;margin-bottom:8px">${fmtN(t.peopleTotal)} people in total · showing the top ${d.people.length} · size computed for the top 15</div>
       <table><tr><th>Person</th><th class="num">Items they appear in</th><th class="num">Size of those items</th><th></th></tr>
       ${d.people.map(p => `<tr><td>${esc(p.name)}</td><td class="num">${fmtN(p.count)}</td><td class="num">${p.bytes >= 0 ? fmtB(p.bytes) : '—'}</td>${barTd(100 * p.count / maxC, 'var(--s2)')}</tr>`).join('')}
       </table>
       <div class="note">Note: a photo with several people counts once for each of them, so sizes overlap.</div>
     </div>`;
-  } else h += '<div class="card" style="color:var(--ink2)">No people recognized.</div>';
+  } else s.people = '<div class="card" style="color:var(--ink2)">No people recognized.</div>';
 
+  let filesHtml = '';
   if (d.byExt && d.byExt.length) {
     const maxB = Math.max(...d.byExt.map(e => e.bytes), 1);
-    h += `<h2>File types</h2><div class="card scroll"><table>
+    filesHtml += `<h2>File types</h2><div class="card scroll"><table>
       <tr><th>Extension</th><th class="num">Files</th><th class="num">Size</th><th class="num">Avg per file</th><th></th></tr>
       ${d.byExt.map(e => `<tr><td class="mono">${esc(e.key)}</td><td class="num">${fmtN(e.count)}</td><td class="num">${fmtB(e.bytes)}</td><td class="num">${fmtB(e.count ? e.bytes / e.count : 0)}</td>${barTd(100 * e.bytes / maxB, 'var(--s3)')}</tr>`).join('')}
     </table></div>`;
   }
-
   if (d.byCamera && d.byCamera.length) {
     const maxC = Math.max(...d.byCamera.map(c => c.count), 1);
-    h += `<h2>Cameras / devices</h2><div class="card scroll"><table>
+    filesHtml += `<h2>Cameras &amp; devices</h2><div class="card scroll"><table>
       <tr><th>Device</th><th class="num">Items</th><th class="num">Size</th><th></th></tr>
       ${d.byCamera.map(c => `<tr><td>${esc(c.key)}</td><td class="num">${fmtN(c.count)}</td><td class="num">${fmtB(c.bytes)}</td>${barTd(100 * c.count / maxC, 'var(--s8)')}</tr>`).join('')}
     </table></div>`;
   }
+  s.files = filesHtml || '<div class="card" style="color:var(--ink2)">No file type data yet.</div>';
 
   if (d.topVideos && d.topVideos.length) {
-    h += `<h2>Top ${d.topVideos.length} largest videos</h2><div class="card scroll"><table>
-      <tr><th>#</th><th>File</th><th>Date</th><th class="num">Duration</th><th class="num">Size</th></tr>
+    s.videos = `<div class="card scroll">
+      <div style="color:var(--ink2);font-size:13px;margin-bottom:8px">Top ${d.topVideos.length} largest videos by file size</div>
+      <table><tr><th>#</th><th>File</th><th>Date</th><th class="num">Duration</th><th class="num">Size</th></tr>
       ${d.topVideos.map((v, i) => `<tr><td class="num" style="color:var(--muted)">${i + 1}</td><td class="mono">${esc(v.name)}</td><td class="mono">${v.date ? new Date(v.date).toLocaleDateString() : '—'}</td><td class="num">${v.durationSec > 0 ? fmtDur(v.durationSec) : ''}</td><td class="num">${fmtB(v.size)}</td></tr>`).join('')}
-    </table></div>`;
-  }
+      </table>
+    </div>`;
+  } else s.videos = '<div class="card" style="color:var(--ink2)">No videos found.</div>';
 
   if (d.usageByUser && d.usageByUser.length) {
-    h += `<h2>Storage per user</h2><div class="card scroll"><table>
+    s.users = `<div class="card scroll"><table>
       <tr><th>User</th><th class="num">Photos</th><th class="num">Videos</th><th class="num">Usage</th><th class="num">Quota</th></tr>
       ${d.usageByUser.map(u => `<tr><td>${esc(u.name)}</td><td class="num">${fmtN(u.photos)}</td><td class="num">${fmtN(u.videos)}</td><td class="num">${fmtB(u.usage)}</td><td class="num">${u.quota ? fmtB(u.quota) : 'unlimited'}</td></tr>`).join('')}
     </table></div>`;
-  }
+  } else s.users = '<div class="card" style="color:var(--ink2)">No per-user data available.</div>';
 
-  $('content').innerHTML = h;
+  return s;
+}
+
+function render(rep) {
+  const d = rep.data, t = d.totals;
+  const totalCount = t.photoCount + t.videoCount;
+  const totalBytes = t.photoBytes + t.videoBytes;
+  $('serverline').textContent = `${d.server.url} · Immich ${d.server.version}`;
+  $('when').textContent = `Updated ${new Date(rep.generatedAt).toLocaleString()}`;
+
+  const sections = buildSections(d, t, totalCount, totalBytes);
+  const keepTab = TABS.some(x => x.key === activeTab) ? activeTab : 'overview';
+
+  $('tabbar').innerHTML = TABS.map(x =>
+    `<button class="tab" id="tab-${x.key}" role="tab" aria-selected="${x.key === keepTab}" onclick="switchTab('${x.key}')">${x.label}</button>`
+  ).join('');
+  $('tabbar').style.display = 'flex';
+
+  $('content').innerHTML = TABS.map(x =>
+    `<section class="panel" id="panel-${x.key}" role="tabpanel" ${x.key === keepTab ? '' : 'hidden'}>${sections[x.key] || ''}</section>`
+  ).join('');
+
+  switchTab(keepTab);
 }
 
 // ---------------- setup / settings ----------------
 async function showSettings() {
+  $('tabbar').style.display = 'none';
   const c = await (await fetch('/api/config')).json();
   $('content').innerHTML = `<div class="card setup">
     <h2 style="margin-top:0">Connect to Immich</h2>
@@ -318,7 +430,10 @@ async function init() {
   }
   $('toolbar').style.display = 'flex';
   const ok = await loadReport();
-  if (!ok) $('content').innerHTML = '<div class="empty">No report yet.<br>Click <b>Refresh now</b> — the first collection takes a few minutes.</div>';
+  if (!ok) {
+    $('tabbar').style.display = 'none';
+    $('content').innerHTML = '<div class="empty">No report yet.<br>Click <b>Refresh now</b> — the first collection takes a few minutes.</div>';
+  }
   if (s.generatedAt) $('when').textContent = `Updated ${new Date(s.generatedAt).toLocaleString()}`;
   if (s.running && !pollTimer) { pollTimer = setInterval(poll, 1500); poll(); }
 }
