@@ -103,8 +103,10 @@ svg text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
 .tab:hover { color: var(--ink); }
 .tab[aria-selected="true"] { color: var(--s1); border-bottom-color: var(--s1); font-weight: 650; }
 .panel[hidden] { display: none; }
-a.rowlink { color: inherit; text-decoration: none; }
-a.rowlink:hover { color: var(--s1); text-decoration: underline; }
+a.rowlink { color: inherit; text-decoration: underline; text-decoration-color: var(--ring); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a.rowlink:hover { color: var(--s1); text-decoration-color: currentColor; }
+a.rowlink svg { width: 11px; height: 11px; margin-left: 3px; vertical-align: 1px; opacity: .6; }
+a.rowlink:hover svg { opacity: 1; }
 .trunc { max-width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block; vertical-align: bottom; }
 .filterbar { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
 .filterbar input {
@@ -220,8 +222,9 @@ function barTd(pct, color) {
 function emptyCard(msg) {
   return `<div class="card"><div class="empty" style="padding:36px 20px">${EMPTY_SVG}<div>${msg}</div></div></div>`;
 }
+const EXTERNAL_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg>';
 function link(url, labelHtml) {
-  return url ? `<a class="rowlink" href="${esc(url)}" target="_blank" rel="noopener">${labelHtml}</a>` : labelHtml;
+  return url ? `<a class="rowlink" href="${esc(url)}" target="_blank" rel="noopener">${labelHtml}${EXTERNAL_SVG}</a>` : labelHtml;
 }
 function deltaText(n, isBytes) {
   if (!n) return null;
