@@ -10,19 +10,38 @@ Immich shows you your photos. Atlas shows you your *library*: where the space go
 how it grew over the years, which albums and people weigh the most, and what is
 actually sitting on your disk.
 
-- 📊 Photos × videos — count and disk space breakdown
+- 📊 Photos × videos — count and disk space breakdown, with a donut at a glance
 - 💾 Disk usage by folder (originals, transcoded videos, thumbnails, DB backups)
 - 📅 Timeline of your library, month by month, back to your oldest photo
-- 🖼️ Album sizes — items, photos/videos split and real disk usage per album
-- 🧑 People — who appears most, and how much space those items take
-- 🎬 Top 30 largest videos with duration
+- 🖼️ Album sizes — items, photos/videos split and real disk usage per album, searchable
+- 🧑 People — who appears most, how much space those items take, searchable
+- 🎬 Largest videos, sortable by size or duration, with a configurable row count
 - 📁 File types and cameras/devices
 - 👥 Per-user storage usage (multi-user servers, with an admin API key)
+- 🔗 Album/person/video rows deep-link straight to that item in Immich
+- 📈 Delta since your last refresh shown right on the Overview tiles
 - 🔄 Auto-refreshes on a schedule (default: every 24h) + manual refresh button
-- 🌗 Light/dark theme, no external dependencies, single tiny container
+- 🌗 Light/dark theme with a real toggle (not just "follows the OS"), color-coded
+  tabs, no external dependencies, single tiny container
 
 Everything is read-only: Atlas only calls the Immich HTTP API (and optionally
 reads the upload folder from a read-only mount). It never modifies your library.
+
+## Screenshots
+
+*Populated with synthetic demo data — not a real library.*
+
+<p>
+  <img src="docs/screenshots/overview.png" alt="Overview tab, light theme" width="49%">
+  <img src="docs/screenshots/overview-dark.png" alt="Overview tab, dark theme" width="49%">
+</p>
+<p>
+  <img src="docs/screenshots/albums.png" alt="Albums tab with search filter" width="49%">
+  <img src="docs/screenshots/videos.png" alt="Videos tab with sort and row-count controls" width="49%">
+</p>
+<p>
+  <img src="docs/screenshots/timeline.png" alt="Timeline tab" width="98%">
+</p>
 
 ## Quick start (Docker)
 
