@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Immich Atlas</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🗺️</text></svg>">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj4KICA8cGF0aCBkPSJNMjM4LjggMTU1LjVjMzMuNSAyOS43IDYwLjUgNjEuNSA3Ny45IDkxLjUgMjkuOS01My40IDQ5LjgtMTE2LjkgNTAuMS0xNTcuM3YtLjhjMC01OS44LTU5LjctODMuMS0xMTEuMS04My4xUzE0NC42IDI5IDE0NC42IDg4LjhWOTJjMjguNyAxMi44IDYyLjYgMzUuNiA5NC4yIDYzLjUiIHN0eWxlPSJmaWxsOiNmYTI5MjEiLz4KICA8cGF0aCBkPSJNNTUuOSAzMTguNmMyMS0yMy4zIDUzLjEtNDguNiA4OS40LTY5LjkgMzguNi0yMi43IDc3LjItMzguNiAxMTEuMS00NS44LTQxLjYtNDQuOS05NS44LTgzLjUtMTM0LjEtOTYuMi0uMy0uMS0uNS0uMi0uNy0uMi01Ny0xOC43LTk3LjYgMzAuOS0xMTMuNSA3OS44Uy00LjEgMjk5LjEgNTIuOCAzMTcuNmMuOC4yIDEuOC42IDMuMSAxIiBzdHlsZT0iZmlsbDojZWQ3OWI1Ii8+CiAgPHBhdGggZD0iTTUwMy45IDE4NS40QzQ4OCAxMzYuNiA0NDcuNCA4NyAzOTAuNSAxMDUuNWMtLjguMy0xLjguNi0zLjEgMS0zLjMgMzEuMi0xNC40IDcwLjUtMzEuMiAxMDkuMS0xNy45IDQxLjEtMzkuOCA3Ni42LTYyLjkgMTAyLjQgNjAgMTEuOSAxMjYuNSAxMS4zIDE2NS4xLTEgLjMtLjEuNS0uMi43LS4yIDU3LTE4LjYgNjAuNi04Mi41IDQ0LjgtMTMxLjQiIHN0eWxlPSJmaWxsOiNmZmI0MDAiLz4KICA8cGF0aCBkPSJNMjA1IDM2Ni4zYy05LjctNDMuNy0xMi44LTg1LjMtOS4zLTExOS44LTU1LjUgMjUuNy0xMDkgNjUuMy0xMzMgOTcuOC0uMi4yLS4zLjQtLjUuNi0zNS4yIDQ4LjQtLjYgMTAyLjMgNDEgMTMyLjVzMTAzLjUgNDYuNCAxMzguNy0xLjljLjUtLjcgMS4xLTEuNSAxLjktMi42LTE1LjYtMjcuMS0yOS43LTY1LjUtMzguOC0xMDYuNiIgc3R5bGU9ImZpbGw6IzFlODNmNyIvPgogIDxwYXRoIGQ9Ik00NDguOCAzNDEuOWMtMzAuNyA2LjUtNzEuNSA4LjEtMTEzLjQgNC00NC42LTQuMy04NS4xLTE0LjItMTE2LjgtMjguMiA3LjIgNjAuOCAyOC40IDEyMy44IDUxLjkgMTU2LjcuMi4yLjMuNC41LjYgMzUuMiA0OC40IDk3LjEgMzIuMiAxMzguNyAxLjkgNDEuNi0zMC4yIDc2LjItODQuMSA0MS0xMzIuNS0uNS0uNi0xLjEtMS40LTEuOS0yLjUiIHN0eWxlPSJmaWxsOiMxOGMyNDkiLz4KICA8Y2lyY2xlIGN4PSIzNjIiIGN5PSIzNjIiIHI9IjEwOCIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjZTBlMGUwIiBzdHJva2Utd2lkdGg9IjQiLz4KICA8ZyBmaWxsPSJub25lIiBzdHJva2U9IiMyYTNhNTIiIHN0cm9rZS13aWR0aD0iMTQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCI+CiAgICA8Y2lyY2xlIGN4PSIzNDgiIGN5PSIzNDgiIHI9IjM4Ii8+CiAgICA8bGluZSB4MT0iMzc2LjUiIHkxPSIzNzYuNSIgeDI9IjQwNiIgeTI9IjQwNiIvPgogIDwvZz4KPC9zdmc+Cg==">
 <style>
 :root {
   color-scheme: light dark;
@@ -103,6 +103,23 @@ svg text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
 .tab:hover { color: var(--ink); }
 .tab[aria-selected="true"] { color: var(--s1); border-bottom-color: var(--s1); font-weight: 650; }
 .panel[hidden] { display: none; }
+a.rowlink { color: inherit; text-decoration: none; }
+a.rowlink:hover { color: var(--s1); text-decoration: underline; }
+.trunc { max-width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block; vertical-align: bottom; }
+.filterbar { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.filterbar input {
+  flex: 1 1 auto; max-width: 320px; padding: 8px 12px; font-size: 14px; font-family: inherit;
+  background: var(--page); color: var(--ink); border: 1px solid var(--ring); border-radius: 8px;
+}
+.filterbar .count { color: var(--muted); font-size: 13px; white-space: nowrap; }
+.delta { color: var(--ink2); font-size: 11px; margin-top: 4px; }
+.tip {
+  position: fixed; pointer-events: none; background: var(--surface); border: 1px solid var(--ring);
+  border-radius: 8px; padding: 8px 10px; font-size: 12px; color: var(--ink); box-shadow: 0 4px 16px rgba(0,0,0,.18);
+  z-index: 50; max-width: 240px; opacity: 0; transition: opacity .08s; left: 0; top: 0;
+}
+.tip.show { opacity: 1; }
+.empty svg { display: block; margin: 0 auto 12px; width: 40px; height: 40px; color: var(--muted); }
 </style>
 </head>
 <body>
@@ -111,15 +128,16 @@ svg text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
   <div class="sub" id="serverline">Storage &amp; library analytics for your Immich server</div>
   <div class="toolbar" id="toolbar" style="display:none">
     <button id="btn" onclick="doRefresh()">Refresh now</button>
-    <button class="ghost" onclick="showSettings()">Settings</button>
+    <button class="icon" id="settings-btn" onclick="showSettings()" aria-label="Settings" title="Settings"></button>
+    <span class="spacer"></span>
     <span class="when" id="when"></span>
     <span class="progress" id="prog"></span>
-    <span class="spacer"></span>
     <button class="icon" id="theme-btn" onclick="toggleTheme()" aria-label="Toggle color theme" title="Toggle color theme"></button>
   </div>
   <div id="tabbar" class="tabbar" role="tablist" style="display:none"></div>
   <div id="content"><div class="empty">Loading…</div></div>
 </div>
+<div class="tip" id="tip"></div>
 <script>
 'use strict';
 const $ = id => document.getElementById(id);
@@ -148,6 +166,28 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () 
   try { if (!localStorage.getItem('atlas-theme')) updateThemeIcon(); } catch {}
 });
 
+const GEAR_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82A1.65 1.65 0 0 0 3 13.09H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>';
+const EMPTY_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 12h4.5l1.8 2.7h4.4L16 12h4.5"/><path d="M5 5.5h14l1.5 6.5v9a1 1 0 0 1-1 1H4.5a1 1 0 0 1-1-1v-9z"/></svg>';
+$('settings-btn').innerHTML = GEAR_SVG;
+
+// ---------------- hover tooltip (delegated, survives re-renders) ----------------
+document.addEventListener('mousemove', e => {
+  const el = e.target.closest('[data-tip]');
+  const tip = $('tip');
+  if (!el) { tip.classList.remove('show'); return; }
+  const parts = el.getAttribute('data-tip').split('|');
+  tip.innerHTML = `<div style="font-weight:650;margin-bottom:2px">${parts[0]}</div><div>${parts[1]}</div><div style="color:var(--ink2)">${parts[2] || ''}</div>`;
+  tip.classList.add('show');
+  const vw = window.innerWidth, vh = window.innerHeight;
+  const w = tip.offsetWidth, h = tip.offsetHeight;
+  let x = e.clientX + 14, y = e.clientY + 14;
+  if (x + w > vw - 8) x = e.clientX - w - 14;
+  if (y + h > vh - 8) y = e.clientY - h - 14;
+  tip.style.left = x + 'px';
+  tip.style.top = y + 'px';
+});
+document.addEventListener('mouseleave', () => $('tip').classList.remove('show'));
+
 const fmtN = n => (n ?? 0).toLocaleString('en-US');
 const fmtPct = n => n.toLocaleString('en-US', { maximumFractionDigits: 1 });
 function fmtB(b) {
@@ -165,11 +205,47 @@ function fmtDur(sec) {
 }
 const esc = s => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
-function tile(v, l, d) {
-  return `<div class="tile"><div class="v">${v}</div><div class="l">${l}</div>${d ? `<div class="d">${d}</div>` : ''}</div>`;
+function tile(v, l, d, delta) {
+  return `<div class="tile"><div class="v">${v}</div><div class="l">${l}</div>${d ? `<div class="d">${d}</div>` : ''}${delta ? `<div class="delta">${delta}</div>` : ''}</div>`;
 }
 function barTd(pct, color) {
   return `<td class="barbg"><div class="bar" style="width:${pct}%;background:${color}"></div></td>`;
+}
+function emptyCard(msg) {
+  return `<div class="card"><div class="empty" style="padding:36px 20px">${EMPTY_SVG}<div>${msg}</div></div></div>`;
+}
+function link(url, labelHtml) {
+  return url ? `<a class="rowlink" href="${esc(url)}" target="_blank" rel="noopener">${labelHtml}</a>` : labelHtml;
+}
+function deltaText(n, isBytes) {
+  if (!n) return null;
+  const sign = n > 0 ? '+' : '−';
+  return `${sign}${isBytes ? fmtB(Math.abs(n)) : fmtN(Math.abs(n))} since last refresh`;
+}
+function computeDelta(rep) {
+  if (!rep.previous) return null;
+  const cur = rep.data.totals, prev = rep.previous.totals;
+  return {
+    items: (cur.photoCount + cur.videoCount) - (prev.photoCount + prev.videoCount),
+    photos: cur.photoCount - prev.photoCount,
+    videos: cur.videoCount - prev.videoCount,
+    bytes: (cur.photoBytes + cur.videoBytes) - (prev.photoBytes + prev.videoBytes),
+    favorites: cur.favCount - prev.favCount,
+    albums: cur.albumCount - prev.albumCount,
+    people: cur.peopleTotal - prev.peopleTotal,
+  };
+}
+function filterRows(input, tbodyId, countId) {
+  const q = input.value.trim().toLowerCase();
+  const tbody = $(tbodyId);
+  const rows = [...tbody.rows];
+  let shown = 0;
+  for (const r of rows) {
+    const match = !q || (r.dataset.name || '').includes(q);
+    r.hidden = !match;
+    if (match) shown++;
+  }
+  if (countId) $(countId).textContent = `${fmtN(shown)} of ${fmtN(rows.length)} shown`;
 }
 
 // ---------------- tabs ----------------
@@ -195,7 +271,7 @@ function switchTab(key) {
   }
 }
 
-function buildSections(d, t, totalCount, totalBytes) {
+function buildSections(d, t, totalCount, totalBytes, delta) {
   const s = {};
 
   const vh = Math.floor(t.videoSeconds / 3600), vm = Math.floor((t.videoSeconds % 3600) / 60);
@@ -203,13 +279,13 @@ function buildSections(d, t, totalCount, totalBytes) {
   const pb = totalBytes ? 100 * t.photoBytes / totalBytes : 0;
   s.overview = `
     <div class="tiles">
-      ${tile(fmtN(totalCount), 'total items')}
-      ${tile(fmtN(t.photoCount), 'photos', fmtB(t.photoBytes))}
-      ${tile(fmtN(t.videoCount), 'videos', `${fmtB(t.videoBytes)} · ${vh}h${String(vm).padStart(2, '0')} total runtime`)}
-      ${tile(fmtB(totalBytes), 'originals size')}
-      ${tile(fmtN(t.favCount), 'favorites')}
-      ${tile(fmtN(t.albumCount), 'albums')}
-      ${tile(fmtN(t.peopleTotal), 'people recognized')}
+      ${tile(fmtN(totalCount), 'total items', null, delta && deltaText(delta.items))}
+      ${tile(fmtN(t.photoCount), 'photos', fmtB(t.photoBytes), delta && deltaText(delta.photos))}
+      ${tile(fmtN(t.videoCount), 'videos', `${fmtB(t.videoBytes)} · ${vh}h${String(vm).padStart(2, '0')} total runtime`, delta && deltaText(delta.videos))}
+      ${tile(fmtB(totalBytes), 'originals size', null, delta && deltaText(delta.bytes, true))}
+      ${tile(fmtN(t.favCount), 'favorites', null, delta && deltaText(delta.favorites))}
+      ${tile(fmtN(t.albumCount), 'albums', null, delta && deltaText(delta.albums))}
+      ${tile(fmtN(t.peopleTotal), 'people recognized', null, delta && deltaText(delta.people))}
     </div>
     <h2>Photos × videos</h2>
     <div class="card">
@@ -235,7 +311,7 @@ function buildSections(d, t, totalCount, totalBytes) {
       ${d.storage ? `<div class="note">Server disk: ${esc(d.storage.diskUse)} used of ${esc(d.storage.diskSize)} (${esc(d.storage.diskAvailable)} free)</div>` : ''}
     </div>`;
   } else {
-    s.storage = '<div class="card" style="color:var(--ink2)">The Immich upload folder is not mounted, so per-folder disk usage isn\'t available. Mount it read-only at /upload to enable this tab — see Settings.</div>';
+    s.storage = emptyCard('The Immich upload folder is not mounted, so per-folder disk usage isn\'t available.<br>Mount it read-only at /upload to enable this tab.');
   }
 
   let timelineHtml = '';
@@ -256,7 +332,8 @@ function buildSections(d, t, totalCount, totalBytes) {
       const x = x0 + i * (bw + gap);
       const hP = plotH * m.photos / maxV, hV = plotH * m.videos / maxV;
       const yV = 14 + plotH - hV, yP = yV - hP;
-      svg += `<g><title>${esc(m.key)}: ${fmtN(m.count)} items (${fmtN(m.photos)} photos, ${fmtN(m.videos)} videos), ${fmtB(m.bytes)}</title>`;
+      const tipStr = `${esc(m.key)}|${fmtN(m.count)} items (${fmtN(m.photos)} photos, ${fmtN(m.videos)} videos)|${fmtB(m.bytes)}`;
+      svg += `<g data-tip="${esc(tipStr)}"><rect x="${x - 1}" y="14" width="${bw + 2}" height="${plotH}" fill="transparent"/>`;
       if (hV > 0) svg += `<rect x="${x}" y="${yV}" width="${bw}" height="${hV}" fill="var(--s2)"/>`;
       if (hP > 0) svg += `<rect x="${x}" y="${yP}" width="${bw}" height="${hP}" rx="2" fill="var(--s1)"/>`;
       svg += '</g>';
@@ -280,26 +357,39 @@ function buildSections(d, t, totalCount, totalBytes) {
       ${d.byYear.map(y => `<tr><td class="mono">${y.key}</td><td class="num">${fmtN(y.photos)}</td><td class="num">${fmtN(y.videos)}</td><td class="num">${fmtN(y.count)}</td><td class="num">${fmtB(y.bytes)}</td>${barTd(100 * y.bytes / maxB, 'var(--s1)')}</tr>`).join('')}
     </table></div>`;
   }
-  s.timeline = timelineHtml || '<div class="card" style="color:var(--ink2)">Not enough dated items to build a timeline.</div>';
+  s.timeline = timelineHtml || emptyCard('Not enough dated items to build a timeline.');
 
   if (d.albums && d.albums.length) {
     const maxB = Math.max(...d.albums.map(a => a.bytes), 1);
-    s.albums = `<div class="card scroll"><table>
-      <tr><th>Album</th><th class="num">Items</th><th class="num">Photos</th><th class="num">Videos</th><th class="num">Size</th><th></th></tr>
-      ${d.albums.map(a => `<tr><td>${esc(a.name)}${a.shared ? ' <span class="tag">shared</span>' : ''}</td><td class="num">${fmtN(a.count)}</td><td class="num">${fmtN(a.photos)}</td><td class="num">${fmtN(a.videos)}</td><td class="num">${fmtB(a.bytes)}</td>${barTd(100 * a.bytes / maxB, 'var(--s5)')}</tr>`).join('')}
+    s.albums = `<div class="card scroll">
+      <div class="filterbar">
+        <input type="search" placeholder="Filter albums…" oninput="filterRows(this,'albums-rows','albums-count')">
+        <span class="count" id="albums-count">${fmtN(d.albums.length)} of ${fmtN(d.albums.length)} shown</span>
+      </div>
+      <table>
+      <thead><tr><th>Album</th><th class="num">Items</th><th class="num">Photos</th><th class="num">Videos</th><th class="num">Size</th><th></th></tr></thead>
+      <tbody id="albums-rows">
+      ${d.albums.map(a => `<tr data-name="${esc(a.name.toLowerCase())}"><td>${link(a.id ? `${d.server.url}/albums/${a.id}` : null, esc(a.name))}${a.shared ? ' <span class="tag">shared</span>' : ''}</td><td class="num">${fmtN(a.count)}</td><td class="num">${fmtN(a.photos)}</td><td class="num">${fmtN(a.videos)}</td><td class="num">${fmtB(a.bytes)}</td>${barTd(100 * a.bytes / maxB, 'var(--s5)')}</tr>`).join('')}
+      </tbody>
     </table></div>`;
-  } else s.albums = '<div class="card" style="color:var(--ink2)">No albums found.</div>';
+  } else s.albums = emptyCard('No albums found.');
 
   if (d.people && d.people.length) {
     const maxC = Math.max(...d.people.map(p => p.count), 1);
     s.people = `<div class="card scroll">
       <div style="color:var(--ink2);font-size:13px;margin-bottom:8px">${fmtN(t.peopleTotal)} people in total · showing the top ${d.people.length} · size computed for the top 15</div>
-      <table><tr><th>Person</th><th class="num">Items they appear in</th><th class="num">Size of those items</th><th></th></tr>
-      ${d.people.map(p => `<tr><td>${esc(p.name)}</td><td class="num">${fmtN(p.count)}</td><td class="num">${p.bytes >= 0 ? fmtB(p.bytes) : '—'}</td>${barTd(100 * p.count / maxC, 'var(--s2)')}</tr>`).join('')}
+      <div class="filterbar">
+        <input type="search" placeholder="Filter people…" oninput="filterRows(this,'people-rows','people-count')">
+        <span class="count" id="people-count">${fmtN(d.people.length)} of ${fmtN(d.people.length)} shown</span>
+      </div>
+      <table><thead><tr><th>Person</th><th class="num">Items they appear in</th><th class="num">Size of those items</th><th></th></tr></thead>
+      <tbody id="people-rows">
+      ${d.people.map(p => `<tr data-name="${esc(p.name.toLowerCase())}"><td>${link(p.id ? `${d.server.url}/people/${p.id}` : null, esc(p.name))}</td><td class="num">${fmtN(p.count)}</td><td class="num">${p.bytes >= 0 ? fmtB(p.bytes) : '—'}</td>${barTd(100 * p.count / maxC, 'var(--s2)')}</tr>`).join('')}
+      </tbody>
       </table>
       <div class="note">Note: a photo with several people counts once for each of them, so sizes overlap.</div>
     </div>`;
-  } else s.people = '<div class="card" style="color:var(--ink2)">No people recognized.</div>';
+  } else s.people = emptyCard('No people recognized.');
 
   let filesHtml = '';
   if (d.byExt && d.byExt.length) {
@@ -316,23 +406,23 @@ function buildSections(d, t, totalCount, totalBytes) {
       ${d.byCamera.map(c => `<tr><td>${esc(c.key)}</td><td class="num">${fmtN(c.count)}</td><td class="num">${fmtB(c.bytes)}</td>${barTd(100 * c.count / maxC, 'var(--s8)')}</tr>`).join('')}
     </table></div>`;
   }
-  s.files = filesHtml || '<div class="card" style="color:var(--ink2)">No file type data yet.</div>';
+  s.files = filesHtml || emptyCard('No file type data yet.');
 
   if (d.topVideos && d.topVideos.length) {
     s.videos = `<div class="card scroll">
       <div style="color:var(--ink2);font-size:13px;margin-bottom:8px">Top ${d.topVideos.length} largest videos by file size</div>
       <table><tr><th>#</th><th>File</th><th>Date</th><th class="num">Duration</th><th class="num">Size</th></tr>
-      ${d.topVideos.map((v, i) => `<tr><td class="num" style="color:var(--muted)">${i + 1}</td><td class="mono">${esc(v.name)}</td><td class="mono">${v.date ? new Date(v.date).toLocaleDateString() : '—'}</td><td class="num">${v.durationSec > 0 ? fmtDur(v.durationSec) : ''}</td><td class="num">${fmtB(v.size)}</td></tr>`).join('')}
+      ${d.topVideos.map((v, i) => `<tr><td class="num" style="color:var(--muted)">${i + 1}</td><td class="mono">${link(v.id ? `${d.server.url}/photos/${v.id}` : null, `<span class="trunc" title="${esc(v.name)}">${esc(v.name)}</span>`)}</td><td class="mono">${v.date ? new Date(v.date).toLocaleDateString() : '—'}</td><td class="num">${v.durationSec > 0 ? fmtDur(v.durationSec) : ''}</td><td class="num">${fmtB(v.size)}</td></tr>`).join('')}
       </table>
     </div>`;
-  } else s.videos = '<div class="card" style="color:var(--ink2)">No videos found.</div>';
+  } else s.videos = emptyCard('No videos found.');
 
   if (d.usageByUser && d.usageByUser.length) {
     s.users = `<div class="card scroll"><table>
       <tr><th>User</th><th class="num">Photos</th><th class="num">Videos</th><th class="num">Usage</th><th class="num">Quota</th></tr>
       ${d.usageByUser.map(u => `<tr><td>${esc(u.name)}</td><td class="num">${fmtN(u.photos)}</td><td class="num">${fmtN(u.videos)}</td><td class="num">${fmtB(u.usage)}</td><td class="num">${u.quota ? fmtB(u.quota) : 'unlimited'}</td></tr>`).join('')}
     </table></div>`;
-  } else s.users = '<div class="card" style="color:var(--ink2)">No per-user data available.</div>';
+  } else s.users = emptyCard('No per-user data available.');
 
   return s;
 }
@@ -344,7 +434,7 @@ function render(rep) {
   $('serverline').textContent = `${d.server.url} · Immich ${d.server.version}`;
   $('when').textContent = `Updated ${new Date(rep.generatedAt).toLocaleString()}`;
 
-  const sections = buildSections(d, t, totalCount, totalBytes);
+  const sections = buildSections(d, t, totalCount, totalBytes, computeDelta(rep));
   const keepTab = TABS.some(x => x.key === activeTab) ? activeTab : 'overview';
 
   $('tabbar').innerHTML = TABS.map(x =>
@@ -432,7 +522,7 @@ async function init() {
   const ok = await loadReport();
   if (!ok) {
     $('tabbar').style.display = 'none';
-    $('content').innerHTML = '<div class="empty">No report yet.<br>Click <b>Refresh now</b> — the first collection takes a few minutes.</div>';
+    $('content').innerHTML = `<div class="empty">${EMPTY_SVG}No report yet.<br>Click <b>Refresh now</b> — the first collection takes a few minutes.</div>`;
   }
   if (s.generatedAt) $('when').textContent = `Updated ${new Date(s.generatedAt).toLocaleString()}`;
   if (s.running && !pollTimer) { pollTimer = setInterval(poll, 1500); poll(); }

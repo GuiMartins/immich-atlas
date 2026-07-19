@@ -156,7 +156,7 @@ async function collect() {
     if (isVideo) {
       const dur = durationSec(a);
       videoSeconds += dur;
-      videos.push({ name: a.originalFileName, size, durationSec: dur, date: dt ? dt.toISOString() : null });
+      videos.push({ id: a.id, name: a.originalFileName, size, durationSec: dur, date: dt ? dt.toISOString() : null });
     }
   }
   const topVideos = videos.sort((a, b) => b.size - a.size).slice(0, 30);
@@ -175,7 +175,7 @@ async function collect() {
           if (a.type === 'VIDEO') videosN++; else photos++;
         }
       } catch {}
-      albums.push({ name: al.albumName, count: al.assetCount, photos, videos: videosN, bytes, shared: !!al.shared });
+      albums.push({ id: al.id, name: al.albumName, count: al.assetCount, photos, videos: videosN, bytes, shared: !!al.shared });
     }
   } catch {}
   albums.sort((a, b) => b.bytes - a.bytes);
@@ -263,8 +263,9 @@ async function refresh() {
   status.startedAt = new Date().toISOString();
   status.lastError = null;
   try {
+    const previous = report ? { generatedAt: report.generatedAt, totals: report.data.totals } : null;
     const data = await collect();
-    report = { generatedAt: new Date().toISOString(), data };
+    report = { generatedAt: new Date().toISOString(), data, previous };
     await fsp.mkdir(DATA_DIR, { recursive: true });
     await fsp.writeFile(CACHE_FILE, JSON.stringify(report));
     console.log(`[refresh] report generated at ${report.generatedAt}`);
