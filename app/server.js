@@ -69,6 +69,22 @@ async function* allAssets(extraFilters = {}) {
   }
 }
 
+// bounded-concurrency map — the Immich API has no bulk endpoints for a lot of
+// what we need (per-person/per-album stats), so we fan out instead of
+// hammering it with either 800 sequential calls or 800 at once
+async function pMap(items, limit, fn) {
+  const results = new Array(items.length);
+  let next = 0;
+  async function worker() {
+    while (next < items.length) {
+      const i = next++;
+      results[i] = await fn(items[i], i);
+    }
+  }
+  await Promise.all(Array.from({ length: Math.min(limit, items.length) }, worker));
+  return results;
+}
+
 function assetDate(a) {
   const c = (a.exifInfo && a.exifInfo.dateTimeOriginal) || a.localDateTime || a.fileCreatedAt;
   if (!c) return null;
@@ -172,12 +188,11 @@ async function collect() {
   });
 
   setPhase('Scanning albums');
-  const albums = [];
+  let albums = [];
   try {
     const list = await api('/albums');
-    for (let i = 0; i < list.length; i++) {
-      const al = list[i];
-      setPhase('Scanning albums', `${i + 1}/${list.length}: ${al.albumName}`);
+    let done = 0;
+    albums = await pMap(list, 8, async al => {
       let bytes = 0, photos = 0, videosN = 0;
       try {
         for await (const a of allAssets({ albumIds: [al.id] })) {
@@ -185,8 +200,10 @@ async function collect() {
           if (a.type === 'VIDEO') videosN++; else photos++;
         }
       } catch {}
-      albums.push({ id: al.id, name: al.albumName, count: al.assetCount, photos, videos: videosN, bytes, shared: !!al.shared });
-    }
+      done++;
+      setPhase('Scanning albums', `${done}/${list.length}: ${al.albumName}`);
+      return { id: al.id, name: al.albumName, count: al.assetCount, photos, videos: videosN, bytes, shared: !!al.shared };
+    });
   } catch {}
   albums.sort((a, b) => b.bytes - a.bytes);
 
@@ -203,17 +220,19 @@ async function collect() {
       pg++;
     }
   } catch {}
-  const personRows = [];
-  for (const p of people) {
+  let peopleDone = 0;
+  const personRows = await pMap(people, 20, async p => {
     let count = 0;
     try { count = (await api(`/people/${p.id}/statistics`)).assets; } catch {}
-    personRows.push({ id: p.id, name: p.name || '(unnamed)', count, bytes: -1 });
-  }
+    peopleDone++;
+    if (peopleDone % 25 === 0 || peopleDone === people.length) setPhase('Scanning people', `${peopleDone}/${people.length}`);
+    return { id: p.id, name: p.name || '(unnamed)', count, bytes: -1 };
+  });
   personRows.sort((a, b) => b.count - a.count);
   const topN = Math.min(15, personRows.length);
-  for (let i = 0; i < topN; i++) {
-    const pr = personRows[i];
-    setPhase('Sizing people', `${i + 1}/${topN}: ${pr.name}`);
+  const topPeople = personRows.slice(0, topN);
+  let sizedDone = 0;
+  await pMap(topPeople, 5, async pr => {
     let bytes = 0;
     try {
       for await (const a of allAssets({ personIds: [pr.id] })) {
@@ -221,7 +240,9 @@ async function collect() {
       }
       pr.bytes = bytes;
     } catch {}
-  }
+    sizedDone++;
+    setPhase('Sizing people', `${sizedDone}/${topN}: ${pr.name}`);
+  });
 
   const diskFolders = [];
   if (fs.existsSync(UPLOAD_DIR)) {
@@ -233,14 +254,13 @@ async function collect() {
       ['backups', 'Database backups', 'Automatic PostgreSQL dumps'],
       ['profile', 'Profile pictures', 'User avatars'],
     ];
-    for (const [key, label, desc] of folderDefs) {
-      setPhase('Measuring disk', key);
-      const p = path.join(UPLOAD_DIR, key);
-      if (fs.existsSync(p)) {
-        const st = await dirStats(p);
-        diskFolders.push({ key, label, desc, bytes: st.bytes, files: st.files });
-      }
-    }
+    setPhase('Measuring disk', folderDefs.map(([key]) => key).join(', '));
+    const existing = folderDefs.filter(([key]) => fs.existsSync(path.join(UPLOAD_DIR, key)));
+    const measured = await pMap(existing, existing.length, async ([key, label, desc]) => {
+      const st = await dirStats(path.join(UPLOAD_DIR, key));
+      return { key, label, desc, bytes: st.bytes, files: st.files };
+    });
+    diskFolders.push(...measured);
     diskFolders.sort((a, b) => b.bytes - a.bytes);
   }
 
