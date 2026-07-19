@@ -159,7 +159,17 @@ async function collect() {
       videos.push({ id: a.id, name: a.originalFileName, size, durationSec: dur, date: dt ? dt.toISOString() : null });
     }
   }
-  const topVideos = videos.sort((a, b) => b.size - a.size).slice(0, 30);
+  // ship the union of top-by-size and top-by-duration so the UI can sort/limit
+  // client-side without a re-collection, while staying accurate for either sort
+  const TOP_VIDEOS_CAP = 200;
+  const bySize = [...videos].sort((a, b) => b.size - a.size).slice(0, TOP_VIDEOS_CAP);
+  const byDuration = [...videos].sort((a, b) => b.durationSec - a.durationSec).slice(0, TOP_VIDEOS_CAP);
+  const seenVideoIds = new Set();
+  const topVideos = [...bySize, ...byDuration].filter(v => {
+    if (seenVideoIds.has(v.id)) return false;
+    seenVideoIds.add(v.id);
+    return true;
+  });
 
   setPhase('Scanning albums');
   const albums = [];

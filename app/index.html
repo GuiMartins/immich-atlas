@@ -10,27 +10,27 @@
   color-scheme: light dark;
   --surface: #fcfcfb; --page: #f9f9f7; --ink: #0b0b0b; --ink2: #52514e; --muted: #898781;
   --grid: #e1e0d9; --baseline: #c3c2b7; --ring: rgba(11,11,11,0.10);
-  --s1: #2a78d6; --s2: #1baf7a; --s3: #eda100; --s5: #4a3aa7; --s6: #e34948; --s8: #eb6834;
+  --s1: #2a78d6; --s2: #1baf7a; --s3: #eda100; --s4: #008300; --s5: #4a3aa7; --s6: #e34948; --s7: #e87ba4; --s8: #eb6834;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     color-scheme: dark;
     --surface: #1a1a19; --page: #0d0d0d; --ink: #ffffff; --ink2: #c3c2b7; --muted: #898781;
     --grid: #2c2c2a; --baseline: #383835; --ring: rgba(255,255,255,0.10);
-    --s1: #3987e5; --s2: #199e70; --s3: #c98500; --s5: #9085e9; --s6: #e66767; --s8: #d95926;
+    --s1: #3987e5; --s2: #199e70; --s3: #c98500; --s4: #008300; --s5: #9085e9; --s6: #e66767; --s7: #d55181; --s8: #d95926;
   }
 }
 :root[data-theme="dark"] {
   color-scheme: dark;
   --surface: #1a1a19; --page: #0d0d0d; --ink: #ffffff; --ink2: #c3c2b7; --muted: #898781;
   --grid: #2c2c2a; --baseline: #383835; --ring: rgba(255,255,255,0.10);
-  --s1: #3987e5; --s2: #199e70; --s3: #c98500; --s5: #9085e9; --s6: #e66767; --s8: #d95926;
+  --s1: #3987e5; --s2: #199e70; --s3: #c98500; --s4: #008300; --s5: #9085e9; --s6: #e66767; --s7: #d55181; --s8: #d95926;
 }
 :root[data-theme="light"] {
   color-scheme: light;
   --surface: #fcfcfb; --page: #f9f9f7; --ink: #0b0b0b; --ink2: #52514e; --muted: #898781;
   --grid: #e1e0d9; --baseline: #c3c2b7; --ring: rgba(11,11,11,0.10);
-  --s1: #2a78d6; --s2: #1baf7a; --s3: #eda100; --s5: #4a3aa7; --s6: #e34948; --s8: #eb6834;
+  --s1: #2a78d6; --s2: #1baf7a; --s3: #eda100; --s4: #008300; --s5: #4a3aa7; --s6: #e34948; --s7: #e87ba4; --s8: #eb6834;
 }
 * { box-sizing: border-box; }
 body {
@@ -57,13 +57,18 @@ button:disabled { opacity: .5; cursor: default; }
 .progress { color: var(--ink2); font-size: 13px; }
 .progress .spin { display: inline-block; animation: spin 1s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
-h2 { font-size: 16px; font-weight: 650; margin: 28px 0 12px; }
+h2 { font-size: 16px; font-weight: 650; margin: 28px 0 12px; display: flex; align-items: center; gap: 8px; }
 h2:first-child { margin-top: 0; }
+h2 svg { width: 16px; height: 16px; flex: none; color: var(--muted); }
 .card { background: var(--surface); border: 1px solid var(--ring); border-radius: 10px; padding: 18px 20px; margin-bottom: 20px; }
 .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 20px; }
 .tile { background: var(--surface); border: 1px solid var(--ring); border-radius: 10px; padding: 14px 16px; }
+.tile-icon { width: 34px; height: 34px; border-radius: 9px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px; }
+.tile-icon svg { width: 18px; height: 18px; }
 .tile .v { font-size: 24px; font-weight: 650; } .tile .l { color: var(--ink2); font-size: 13px; }
 .tile .d { color: var(--muted); font-size: 12px; }
+.donut-row { display: flex; gap: 28px; align-items: center; flex-wrap: wrap; }
+.donut-figures { flex: 1 1 220px; min-width: 220px; }
 table { width: 100%; border-collapse: collapse; font-size: 14px; }
 th { text-align: left; color: var(--muted); font-weight: 500; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; padding: 6px 8px; border-bottom: 1px solid var(--grid); }
 td { padding: 6px 8px; border-bottom: 1px solid var(--grid); vertical-align: middle; }
@@ -99,9 +104,13 @@ svg text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
   background: transparent; color: var(--ink2); font-weight: 500; font-size: 14px;
   border: 0; border-bottom: 2px solid transparent; border-radius: 0;
   padding: 10px 14px; white-space: nowrap; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 7px;
 }
+.tab svg { width: 15px; height: 15px; flex: none; opacity: .6; }
 .tab:hover { color: var(--ink); }
-.tab[aria-selected="true"] { color: var(--s1); border-bottom-color: var(--s1); font-weight: 650; }
+.tab:hover svg { opacity: .85; }
+.tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--tab-accent, var(--s1)); font-weight: 650; }
+.tab[aria-selected="true"] svg { opacity: 1; }
 .panel[hidden] { display: none; }
 a.rowlink { color: inherit; text-decoration: underline; text-decoration-color: var(--ring); text-decoration-thickness: 1px; text-underline-offset: 3px; }
 a.rowlink:hover { color: var(--s1); text-decoration-color: currentColor; }
@@ -114,6 +123,11 @@ a.rowlink:hover svg { opacity: 1; }
   background: var(--page); color: var(--ink); border: 1px solid var(--ring); border-radius: 8px;
 }
 .filterbar .count { color: var(--muted); font-size: 13px; white-space: nowrap; }
+.filterbar .field { display: flex; align-items: center; gap: 6px; color: var(--ink2); font-size: 13px; }
+.filterbar select {
+  padding: 7px 10px; font-size: 14px; font-family: inherit;
+  background: var(--page); color: var(--ink); border: 1px solid var(--ring); border-radius: 8px;
+}
 .delta { color: var(--ink2); font-size: 11px; margin-top: 4px; }
 .tip {
   position: fixed; pointer-events: none; background: var(--surface); border: 1px solid var(--ring);
@@ -178,6 +192,34 @@ const GEAR_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" str
 const EMPTY_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 12h4.5l1.8 2.7h4.4L16 12h4.5"/><path d="M5 5.5h14l1.5 6.5v9a1 1 0 0 1-1 1H4.5a1 1 0 0 1-1-1v-9z"/></svg>';
 $('settings-btn').innerHTML = GEAR_SVG;
 
+// ---------------- icon set (outline, 24x24, currentColor — tint via parent's `color`) ----------------
+function ic(inner) { return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">${inner}</svg>`; }
+const ICONS = {
+  dashboard: ic('<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>'),
+  database: ic('<ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/>'),
+  calendar: ic('<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>'),
+  album: ic('<rect x="3" y="3" width="13" height="13" rx="2"/><path d="M3 13l3.5-3.5a2 2 0 0 1 2.8 0L13 13"/><circle cx="7" cy="7" r="1.1"/><path d="M8 21h13V8"/>'),
+  person: ic('<circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7"/>'),
+  file: ic('<path d="M6 2h9l5 5v15H6z"/><path d="M14 2v6h6"/>'),
+  camera: ic('<path d="M4 8h3l2-2h6l2 2h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="14" r="3.4"/>'),
+  play: ic('<circle cx="12" cy="12" r="9"/><path d="M10 8.5v7l6-3.5z" fill="currentColor" stroke="none"/>'),
+  idcard: ic('<rect x="2" y="5" width="20" height="14" rx="2"/><circle cx="8" cy="12" r="2"/><path d="M8 16.3c-1.8 0-3.2.8-3.2 2M13 10h6M13 14h6"/>'),
+  image: ic('<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.4"/><path d="M21 15l-5-5-9 9"/>'),
+  heart: ic('<path d="M12 21s-7-4.5-9.5-9C.8 8.4 2 4.5 6 4c2.2-.3 3.8 1 6 3.3C14.2 5 15.8 3.7 18 4c4 .5 5.2 4.4 3.5 8-2.5 4.5-9.5 9-9.5 9z"/>'),
+  layers: ic('<path d="M12 3 2 8l10 5 10-5-10-5z"/><path d="M2 13l10 5 10-5"/>'),
+};
+// fixed per-tab identity color, in the palette's documented hue order — never cycled
+const TAB_META = [
+  { key: 'overview', label: 'Overview', icon: ICONS.dashboard, color: 'var(--s1)' },
+  { key: 'storage', label: 'Storage', icon: ICONS.database, color: 'var(--s2)' },
+  { key: 'timeline', label: 'Timeline', icon: ICONS.calendar, color: 'var(--s3)' },
+  { key: 'albums', label: 'Albums', icon: ICONS.album, color: 'var(--s4)' },
+  { key: 'people', label: 'People', icon: ICONS.person, color: 'var(--s5)' },
+  { key: 'files', label: 'Files', icon: ICONS.file, color: 'var(--s6)' },
+  { key: 'videos', label: 'Videos', icon: ICONS.play, color: 'var(--s7)' },
+  { key: 'users', label: 'Users', icon: ICONS.idcard, color: 'var(--s8)' },
+];
+
 // ---------------- hover tooltip (delegated, survives re-renders) ----------------
 document.addEventListener('mousemove', e => {
   const el = e.target.closest('[data-tip]');
@@ -213,11 +255,23 @@ function fmtDur(sec) {
 }
 const esc = s => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
-function tile(v, l, d, delta) {
-  return `<div class="tile"><div class="v">${v}</div><div class="l">${l}</div>${d ? `<div class="d">${d}</div>` : ''}${delta ? `<div class="delta">${delta}</div>` : ''}</div>`;
+function tile(v, l, d, delta, icon, color) {
+  const badge = icon ? `<div class="tile-icon" style="color:${color};background:color-mix(in srgb, ${color} 16%, transparent)">${icon}</div>` : '';
+  return `<div class="tile">${badge}<div class="v">${v}</div><div class="l">${l}</div>${d ? `<div class="d">${d}</div>` : ''}${delta ? `<div class="delta">${delta}</div>` : ''}</div>`;
 }
 function barTd(pct, color) {
   return `<td class="barbg"><div class="bar" style="width:${pct}%;background:${color}"></div></td>`;
+}
+function donut2(pct, colorA, colorB, labelA, size, stroke) {
+  size = size || 132; stroke = stroke || 18;
+  const r = (size - stroke) / 2, c = 2 * Math.PI * r, cx = size / 2, cy = size / 2;
+  const aLen = c * Math.max(0, Math.min(100, pct)) / 100;
+  return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" role="img" aria-label="${fmtPct(pct)}% ${labelA}">
+    <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${colorB}" stroke-width="${stroke}"/>
+    <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${colorA}" stroke-width="${stroke}" stroke-linecap="round" stroke-dasharray="${aLen} ${c}" transform="rotate(-90 ${cx} ${cy})"/>
+    <text x="${cx}" y="${cy - 3}" text-anchor="middle" font-size="21" font-weight="650" fill="var(--ink)">${Math.round(pct)}%</text>
+    <text x="${cx}" y="${cy + 15}" text-anchor="middle" font-size="11" fill="var(--muted)">${esc(labelA)}</text>
+  </svg>`;
 }
 function emptyCard(msg) {
   return `<div class="card"><div class="empty" style="padding:36px 20px">${EMPTY_SVG}<div>${msg}</div></div></div>`;
@@ -257,21 +311,26 @@ function filterRows(input, tbodyId, countId) {
   if (countId) $(countId).textContent = `${fmtN(shown)} of ${fmtN(rows.length)} shown`;
 }
 
+// ---------------- videos tab: client-side sort/limit over the cached dataset ----------------
+let videosData = [], videosBaseUrl = '';
+function renderVideosTable() {
+  const tbody = $('videos-rows');
+  if (!tbody) return;
+  const sortBy = $('videos-sort') ? $('videos-sort').value : 'size';
+  const limit = $('videos-limit') ? parseInt($('videos-limit').value, 10) : 25;
+  const sorted = [...videosData]
+    .sort((a, b) => sortBy === 'duration' ? b.durationSec - a.durationSec : b.size - a.size)
+    .slice(0, limit);
+  tbody.innerHTML = sorted.map((v, i) => `<tr><td class="num" style="color:var(--muted)">${i + 1}</td><td class="mono">${link(v.id ? `${videosBaseUrl}/photos/${v.id}` : null, `<span class="trunc" title="${esc(v.name)}">${esc(v.name)}</span>`)}</td><td class="mono">${v.date ? new Date(v.date).toLocaleDateString() : '—'}</td><td class="num">${v.durationSec > 0 ? fmtDur(v.durationSec) : ''}</td><td class="num">${fmtB(v.size)}</td></tr>`).join('');
+  const countEl = $('videos-count');
+  if (countEl) countEl.textContent = `${fmtN(sorted.length)} of ${fmtN(videosData.length)} available`;
+}
+
 // ---------------- tabs ----------------
-const TABS = [
-  { key: 'overview', label: 'Overview' },
-  { key: 'storage', label: 'Storage' },
-  { key: 'timeline', label: 'Timeline' },
-  { key: 'albums', label: 'Albums' },
-  { key: 'people', label: 'People' },
-  { key: 'files', label: 'Files' },
-  { key: 'videos', label: 'Videos' },
-  { key: 'users', label: 'Users' },
-];
 let activeTab = 'overview';
 function switchTab(key) {
   activeTab = key;
-  for (const t of TABS) {
+  for (const t of TAB_META) {
     const btn = $('tab-' + t.key), panel = $('panel-' + t.key);
     if (!btn || !panel) continue;
     const on = t.key === key;
@@ -288,21 +347,26 @@ function buildSections(d, t, totalCount, totalBytes, delta) {
   const pb = totalBytes ? 100 * t.photoBytes / totalBytes : 0;
   s.overview = `
     <div class="tiles">
-      ${tile(fmtN(totalCount), 'total items', null, delta && deltaText(delta.items))}
-      ${tile(fmtN(t.photoCount), 'photos', fmtB(t.photoBytes), delta && deltaText(delta.photos))}
-      ${tile(fmtN(t.videoCount), 'videos', `${fmtB(t.videoBytes)} · ${vh}h${String(vm).padStart(2, '0')} total runtime`, delta && deltaText(delta.videos))}
-      ${tile(fmtB(totalBytes), 'originals size', null, delta && deltaText(delta.bytes, true))}
-      ${tile(fmtN(t.favCount), 'favorites', null, delta && deltaText(delta.favorites))}
-      ${tile(fmtN(t.albumCount), 'albums', null, delta && deltaText(delta.albums))}
-      ${tile(fmtN(t.peopleTotal), 'people recognized', null, delta && deltaText(delta.people))}
+      ${tile(fmtN(totalCount), 'total items', null, delta && deltaText(delta.items), ICONS.layers, 'var(--s1)')}
+      ${tile(fmtN(t.photoCount), 'photos', fmtB(t.photoBytes), delta && deltaText(delta.photos), ICONS.image, 'var(--s1)')}
+      ${tile(fmtN(t.videoCount), 'videos', `${fmtB(t.videoBytes)} · ${vh}h${String(vm).padStart(2, '0')} total runtime`, delta && deltaText(delta.videos), ICONS.play, 'var(--s2)')}
+      ${tile(fmtB(totalBytes), 'originals size', null, delta && deltaText(delta.bytes, true), ICONS.database, 'var(--s8)')}
+      ${tile(fmtN(t.favCount), 'favorites', null, delta && deltaText(delta.favorites), ICONS.heart, 'var(--s6)')}
+      ${tile(fmtN(t.albumCount), 'albums', null, delta && deltaText(delta.albums), ICONS.album, 'var(--s4)')}
+      ${tile(fmtN(t.peopleTotal), 'people recognized', null, delta && deltaText(delta.people), ICONS.person, 'var(--s5)')}
     </div>
     <h2>Photos × videos</h2>
     <div class="card">
-      <div style="color:var(--ink2);font-size:13px;margin-bottom:6px">Count — photos ${fmtPct(pn)}% · videos ${fmtPct(100 - pn)}%</div>
-      <div class="stack"><div style="width:${pn}%;background:var(--s1)"></div><div style="width:${100 - pn}%;background:var(--s2)"></div></div>
-      <div style="color:var(--ink2);font-size:13px;margin:14px 0 6px">Disk space — photos ${fmtPct(pb)}% (${fmtB(t.photoBytes)}) · videos ${fmtPct(100 - pb)}% (${fmtB(t.videoBytes)})</div>
-      <div class="stack"><div style="width:${pb}%;background:var(--s1)"></div><div style="width:${100 - pb}%;background:var(--s2)"></div></div>
-      <div class="legend"><span><i class="dot" style="background:var(--s1)"></i>Photos</span><span><i class="dot" style="background:var(--s2)"></i>Videos</span></div>
+      <div class="donut-row">
+        <div class="donut">${donut2(pb, 'var(--s1)', 'var(--s2)', 'photos')}</div>
+        <div class="donut-figures">
+          <div style="color:var(--ink2);font-size:13px;margin-bottom:6px">Count — photos ${fmtPct(pn)}% · videos ${fmtPct(100 - pn)}%</div>
+          <div class="stack"><div style="width:${pn}%;background:var(--s1)"></div><div style="width:${100 - pn}%;background:var(--s2)"></div></div>
+          <div style="color:var(--ink2);font-size:13px;margin:14px 0 6px">Disk space — photos ${fmtPct(pb)}% (${fmtB(t.photoBytes)}) · videos ${fmtPct(100 - pb)}% (${fmtB(t.videoBytes)})</div>
+          <div class="stack"><div style="width:${pb}%;background:var(--s1)"></div><div style="width:${100 - pb}%;background:var(--s2)"></div></div>
+          <div class="legend"><span><i class="dot" style="background:var(--s1)"></i>Photos</span><span><i class="dot" style="background:var(--s2)"></i>Videos</span></div>
+        </div>
+      </div>
     </div>`;
 
   if (d.diskFolders && d.diskFolders.length) {
@@ -361,7 +425,7 @@ function buildSections(d, t, totalCount, totalBytes, delta) {
   }
   if (d.byYear && d.byYear.length) {
     const maxB = Math.max(...d.byYear.map(y => y.bytes), 1);
-    timelineHtml += `<h2>By year</h2><div class="card scroll"><table>
+    timelineHtml += `<h2>${ICONS.calendar}By year</h2><div class="card scroll"><table>
       <tr><th>Year</th><th class="num">Photos</th><th class="num">Videos</th><th class="num">Total</th><th class="num">Size</th><th></th></tr>
       ${d.byYear.map(y => `<tr><td class="mono">${y.key}</td><td class="num">${fmtN(y.photos)}</td><td class="num">${fmtN(y.videos)}</td><td class="num">${fmtN(y.count)}</td><td class="num">${fmtB(y.bytes)}</td>${barTd(100 * y.bytes / maxB, 'var(--s1)')}</tr>`).join('')}
     </table></div>`;
@@ -403,14 +467,14 @@ function buildSections(d, t, totalCount, totalBytes, delta) {
   let filesHtml = '';
   if (d.byExt && d.byExt.length) {
     const maxB = Math.max(...d.byExt.map(e => e.bytes), 1);
-    filesHtml += `<h2>File types</h2><div class="card scroll"><table>
+    filesHtml += `<h2>${ICONS.file}File types</h2><div class="card scroll"><table>
       <tr><th>Extension</th><th class="num">Files</th><th class="num">Size</th><th class="num">Avg per file</th><th></th></tr>
       ${d.byExt.map(e => `<tr><td class="mono">${esc(e.key)}</td><td class="num">${fmtN(e.count)}</td><td class="num">${fmtB(e.bytes)}</td><td class="num">${fmtB(e.count ? e.bytes / e.count : 0)}</td>${barTd(100 * e.bytes / maxB, 'var(--s3)')}</tr>`).join('')}
     </table></div>`;
   }
   if (d.byCamera && d.byCamera.length) {
     const maxC = Math.max(...d.byCamera.map(c => c.count), 1);
-    filesHtml += `<h2>Cameras &amp; devices</h2><div class="card scroll"><table>
+    filesHtml += `<h2>${ICONS.camera}Cameras &amp; devices</h2><div class="card scroll"><table>
       <tr><th>Device</th><th class="num">Items</th><th class="num">Size</th><th></th></tr>
       ${d.byCamera.map(c => `<tr><td>${esc(c.key)}</td><td class="num">${fmtN(c.count)}</td><td class="num">${fmtB(c.bytes)}</td>${barTd(100 * c.count / maxC, 'var(--s8)')}</tr>`).join('')}
     </table></div>`;
@@ -418,13 +482,28 @@ function buildSections(d, t, totalCount, totalBytes, delta) {
   s.files = filesHtml || emptyCard('No file type data yet.');
 
   if (d.topVideos && d.topVideos.length) {
+    videosData = d.topVideos;
+    videosBaseUrl = d.server.url;
     s.videos = `<div class="card scroll">
-      <div style="color:var(--ink2);font-size:13px;margin-bottom:8px">Top ${d.topVideos.length} largest videos by file size</div>
-      <table><tr><th>#</th><th>File</th><th>Date</th><th class="num">Duration</th><th class="num">Size</th></tr>
-      ${d.topVideos.map((v, i) => `<tr><td class="num" style="color:var(--muted)">${i + 1}</td><td class="mono">${link(v.id ? `${d.server.url}/photos/${v.id}` : null, `<span class="trunc" title="${esc(v.name)}">${esc(v.name)}</span>`)}</td><td class="mono">${v.date ? new Date(v.date).toLocaleDateString() : '—'}</td><td class="num">${v.durationSec > 0 ? fmtDur(v.durationSec) : ''}</td><td class="num">${fmtB(v.size)}</td></tr>`).join('')}
-      </table>
+      <div style="color:var(--ink2);font-size:13px;margin-bottom:8px">Drawn from the largest ${fmtN(d.topVideos.length)} videos by size and by duration combined</div>
+      <div class="filterbar">
+        <label class="field">Sort by <select id="videos-sort" onchange="renderVideosTable()">
+          <option value="size">Size</option>
+          <option value="duration">Duration</option>
+        </select></label>
+        <label class="field">Show <select id="videos-limit" onchange="renderVideosTable()">
+          <option value="10">10</option>
+          <option value="25" selected>25</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+          <option value="200">200</option>
+        </select></label>
+        <span class="count" id="videos-count"></span>
+      </div>
+      <table><thead><tr><th>#</th><th>File</th><th>Date</th><th class="num">Duration</th><th class="num">Size</th></tr></thead>
+      <tbody id="videos-rows"></tbody></table>
     </div>`;
-  } else s.videos = emptyCard('No videos found.');
+  } else { s.videos = emptyCard('No videos found.'); videosData = []; }
 
   if (d.usageByUser && d.usageByUser.length) {
     s.users = `<div class="card scroll"><table>
@@ -444,18 +523,19 @@ function render(rep) {
   $('when').textContent = `Updated ${new Date(rep.generatedAt).toLocaleString()}`;
 
   const sections = buildSections(d, t, totalCount, totalBytes, computeDelta(rep));
-  const keepTab = TABS.some(x => x.key === activeTab) ? activeTab : 'overview';
+  const keepTab = TAB_META.some(x => x.key === activeTab) ? activeTab : 'overview';
 
-  $('tabbar').innerHTML = TABS.map(x =>
-    `<button class="tab" id="tab-${x.key}" role="tab" aria-selected="${x.key === keepTab}" onclick="switchTab('${x.key}')">${x.label}</button>`
+  $('tabbar').innerHTML = TAB_META.map(x =>
+    `<button class="tab" id="tab-${x.key}" role="tab" aria-selected="${x.key === keepTab}" style="--tab-accent:${x.color}" onclick="switchTab('${x.key}')"><span style="color:${x.color}">${x.icon}</span><span>${x.label}</span></button>`
   ).join('');
   $('tabbar').style.display = 'flex';
 
-  $('content').innerHTML = TABS.map(x =>
+  $('content').innerHTML = TAB_META.map(x =>
     `<section class="panel" id="panel-${x.key}" role="tabpanel" ${x.key === keepTab ? '' : 'hidden'}>${sections[x.key] || ''}</section>`
   ).join('');
 
   switchTab(keepTab);
+  renderVideosTable();
 }
 
 // ---------------- setup / settings ----------------
