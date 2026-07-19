@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Immich Atlas</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj4KICA8cGF0aCBkPSJNMjM4LjggMTU1LjVjMzMuNSAyOS43IDYwLjUgNjEuNSA3Ny45IDkxLjUgMjkuOS01My40IDQ5LjgtMTE2LjkgNTAuMS0xNTcuM3YtLjhjMC01OS44LTU5LjctODMuMS0xMTEuMS04My4xUzE0NC42IDI5IDE0NC42IDg4LjhWOTJjMjguNyAxMi44IDYyLjYgMzUuNiA5NC4yIDYzLjUiIHN0eWxlPSJmaWxsOiNmYTI5MjEiLz4KICA8cGF0aCBkPSJNNTUuOSAzMTguNmMyMS0yMy4zIDUzLjEtNDguNiA4OS40LTY5LjkgMzguNi0yMi43IDc3LjItMzguNiAxMTEuMS00NS44LTQxLjYtNDQuOS05NS44LTgzLjUtMTM0LjEtOTYuMi0uMy0uMS0uNS0uMi0uNy0uMi01Ny0xOC43LTk3LjYgMzAuOS0xMTMuNSA3OS44Uy00LjEgMjk5LjEgNTIuOCAzMTcuNmMuOC4yIDEuOC42IDMuMSAxIiBzdHlsZT0iZmlsbDojZWQ3OWI1Ii8+CiAgPHBhdGggZD0iTTUwMy45IDE4NS40QzQ4OCAxMzYuNiA0NDcuNCA4NyAzOTAuNSAxMDUuNWMtLjguMy0xLjguNi0zLjEgMS0zLjMgMzEuMi0xNC40IDcwLjUtMzEuMiAxMDkuMS0xNy45IDQxLjEtMzkuOCA3Ni42LTYyLjkgMTAyLjQgNjAgMTEuOSAxMjYuNSAxMS4zIDE2NS4xLTEgLjMtLjEuNS0uMi43LS4yIDU3LTE4LjYgNjAuNi04Mi41IDQ0LjgtMTMxLjQiIHN0eWxlPSJmaWxsOiNmZmI0MDAiLz4KICA8cGF0aCBkPSJNMjA1IDM2Ni4zYy05LjctNDMuNy0xMi44LTg1LjMtOS4zLTExOS44LTU1LjUgMjUuNy0xMDkgNjUuMy0xMzMgOTcuOC0uMi4yLS4zLjQtLjUuNi0zNS4yIDQ4LjQtLjYgMTAyLjMgNDEgMTMyLjVzMTAzLjUgNDYuNCAxMzguNy0xLjljLjUtLjcgMS4xLTEuNSAxLjktMi42LTE1LjYtMjcuMS0yOS43LTY1LjUtMzguOC0xMDYuNiIgc3R5bGU9ImZpbGw6IzFlODNmNyIvPgogIDxwYXRoIGQ9Ik00NDguOCAzNDEuOWMtMzAuNyA2LjUtNzEuNSA4LjEtMTEzLjQgNC00NC42LTQuMy04NS4xLTE0LjItMTE2LjgtMjguMiA3LjIgNjAuOCAyOC40IDEyMy44IDUxLjkgMTU2LjcuMi4yLjMuNC41LjYgMzUuMiA0OC40IDk3LjEgMzIuMiAxMzguNyAxLjkgNDEuNi0zMC4yIDc2LjItODQuMSA0MS0xMzIuNS0uNS0uNi0xLjEtMS40LTEuOS0yLjUiIHN0eWxlPSJmaWxsOiMxOGMyNDkiLz4KICA8Y2lyY2xlIGN4PSIzNjIiIGN5PSIzNjIiIHI9IjEwOCIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjZTBlMGUwIiBzdHJva2Utd2lkdGg9IjQiLz4KICA8ZyBmaWxsPSJub25lIiBzdHJva2U9IiMyYTNhNTIiIHN0cm9rZS13aWR0aD0iMTQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCI+CiAgICA8Y2lyY2xlIGN4PSIzNDgiIGN5PSIzNDgiIHI9IjM4Ii8+CiAgICA8bGluZSB4MT0iMzc2LjUiIHkxPSIzNzYuNSIgeDI9IjQwNiIgeTI9IjQwNiIvPgogIDwvZz4KPC9zdmc+Cg==">
+<style>
+:root {
+  color-scheme: light dark;
+  --surface: #fcfcfb; --page: #f9f9f7; --ink: #0b0b0b; --ink2: #52514e; --muted: #898781;
+  --grid: #e1e0d9; --baseline: #c3c2b7; --ring: rgba(11,11,11,0.10);
+  --s1: #2a78d6; --s2: #1baf7a; --s3: #eda100; --s4: #008300; --s5: #4a3aa7; --s6: #e34948; --s7: #e87ba4; --s8: #eb6834;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --surface: #1a1a19; --page: #0d0d0d; --ink: #ffffff; --ink2: #c3c2b7; --muted: #898781;
+    --grid: #2c2c2a; --baseline: #383835; --ring: rgba(255,255,255,0.10);
+    --s1: #3987e5; --s2: #199e70; --s3: #c98500; --s4: #008300; --s5: #9085e9; --s6: #e66767; --s7: #d55181; --s8: #d95926;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface: #1a1a19; --page: #0d0d0d; --ink: #ffffff; --ink2: #c3c2b7; --muted: #898781;
+  --grid: #2c2c2a; --baseline: #383835; --ring: rgba(255,255,255,0.10);
+  --s1: #3987e5; --s2: #199e70; --s3: #c98500; --s4: #008300; --s5: #9085e9; --s6: #e66767; --s7: #d55181; --s8: #d95926;
+}
+:root[data-theme="light"] {
+  color-scheme: light;
+  --surface: #fcfcfb; --page: #f9f9f7; --ink: #0b0b0b; --ink2: #52514e; --muted: #898781;
+  --grid: #e1e0d9; --baseline: #c3c2b7; --ring: rgba(11,11,11,0.10);
+  --s1: #2a78d6; --s2: #1baf7a; --s3: #eda100; --s4: #008300; --s5: #4a3aa7; --s6: #e34948; --s7: #e87ba4; --s8: #eb6834;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--page); color: var(--ink);
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif; font-size: 15px; line-height: 1.5;
+}
+.wrap { max-width: 1100px; margin: 0 auto; padding: 32px 20px 64px; }
+h1 { font-size: 26px; margin: 0 0 4px; }
+.sub { color: var(--ink2); margin-bottom: 8px; }
+.toolbar { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; flex-wrap: wrap; }
+.toolbar .when { color: var(--muted); font-size: 13px; }
+.toolbar .spacer { flex: 1 1 auto; }
+button {
+  background: var(--s1); color: #fff; border: 0; border-radius: 8px; padding: 8px 18px;
+  font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit;
+}
+button.ghost { background: transparent; color: var(--ink2); border: 1px solid var(--ring); font-weight: 500; }
+button.icon {
+  background: transparent; border: 1px solid var(--ring); color: var(--ink2);
+  width: 36px; height: 36px; padding: 0; display: inline-flex; align-items: center; justify-content: center; border-radius: 8px;
+}
+button.icon svg { width: 18px; height: 18px; }
+button:disabled { opacity: .5; cursor: default; }
+.progress { color: var(--ink2); font-size: 13px; }
+.progress .spin { display: inline-block; animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+h2 { font-size: 16px; font-weight: 650; margin: 28px 0 12px; display: flex; align-items: center; gap: 8px; }
+h2:first-child { margin-top: 0; }
+h2 svg { width: 16px; height: 16px; flex: none; color: var(--muted); }
+.card { background: var(--surface); border: 1px solid var(--ring); border-radius: 10px; padding: 18px 20px; margin-bottom: 20px; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 20px; }
+.tile { background: var(--surface); border: 1px solid var(--ring); border-radius: 10px; padding: 14px 16px; }
+.tile-icon { width: 34px; height: 34px; border-radius: 9px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px; }
+.tile-icon svg { width: 18px; height: 18px; }
+.tile .v { font-size: 24px; font-weight: 650; } .tile .l { color: var(--ink2); font-size: 13px; }
+.tile .d { color: var(--muted); font-size: 12px; }
+.donut-row { display: flex; gap: 28px; align-items: center; flex-wrap: wrap; }
+.donut-figures { flex: 1 1 220px; min-width: 220px; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th { text-align: left; color: var(--muted); font-weight: 500; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; padding: 6px 8px; border-bottom: 1px solid var(--grid); }
+td { padding: 6px 8px; border-bottom: 1px solid var(--grid); vertical-align: middle; }
+tr:last-child td { border-bottom: none; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.bar { height: 8px; border-radius: 4px; min-width: 2px; }
+.barbg { width: 160px; }
+.stack { display: flex; height: 26px; border-radius: 6px; overflow: hidden; gap: 2px; background: var(--page); }
+.stack div { height: 100%; }
+.legend { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 10px; font-size: 13px; color: var(--ink2); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.dot { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+.mono { font-variant-numeric: tabular-nums; }
+.tag { font-size: 11px; padding: 1px 7px; border-radius: 99px; border: 1px solid var(--ring); color: var(--ink2); }
+svg text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+.scroll { overflow-x: auto; }
+.note { color: var(--muted); font-size: 12px; margin-top: 8px; }
+.empty { text-align: center; padding: 80px 20px; color: var(--ink2); }
+.setup { max-width: 460px; margin: 40px auto; }
+.setup label { display: block; font-size: 13px; color: var(--ink2); margin: 14px 0 4px; }
+.setup input {
+  width: 100%; padding: 9px 12px; font-size: 14px; font-family: inherit;
+  background: var(--page); color: var(--ink); border: 1px solid var(--ring); border-radius: 8px;
+}
+.setup .err { color: var(--s6); font-size: 13px; margin-top: 10px; min-height: 18px; }
+.setup .actions { margin-top: 18px; display: flex; gap: 10px; }
+.tabbar {
+  display: flex; gap: 4px; border-bottom: 1px solid var(--grid); margin-bottom: 24px;
+  overflow-x: auto; scrollbar-width: none;
+}
+.tabbar::-webkit-scrollbar { display: none; }
+.tab {
+  background: transparent; color: var(--ink2); font-weight: 500; font-size: 14px;
+  border: 0; border-bottom: 2px solid transparent; border-radius: 0;
+  padding: 10px 14px; white-space: nowrap; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 7px;
+}
+.tab svg { width: 15px; height: 15px; flex: none; opacity: .6; }
+.tab:hover { color: var(--ink); }
+.tab:hover svg { opacity: .85; }
+.tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--tab-accent, var(--s1)); font-weight: 650; }
+.tab[aria-selected="true"] svg { opacity: 1; }
+.panel[hidden] { display: none; }
+a.rowlink { color: inherit; text-decoration: underline; text-decoration-color: var(--ring); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a.rowlink:hover { color: var(--s1); text-decoration-color: currentColor; }
+a.rowlink svg { width: 11px; height: 11px; margin-left: 3px; vertical-align: 1px; opacity: .6; }
+a.rowlink:hover svg { opacity: 1; }
+.trunc { max-width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block; vertical-align: bottom; }
+.filterbar { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.filterbar input {
+  flex: 1 1 auto; max-width: 320px; padding: 8px 12px; font-size: 14px; font-family: inherit;
+  background: var(--page); color: var(--ink); border: 1px solid var(--ring); border-radius: 8px;
+}
+.filterbar .count { color: var(--muted); font-size: 13px; white-space: nowrap; }
+.filterbar .field { display: flex; align-items: center; gap: 6px; color: var(--ink2); font-size: 13px; }
+.filterbar select {
+  padding: 7px 10px; font-size: 14px; font-family: inherit;
+  background: var(--page); color: var(--ink); border: 1px solid var(--ring); border-radius: 8px;
+}
+.delta { color: var(--ink2); font-size: 11px; margin-top: 4px; }
+.tip {
+  position: fixed; pointer-events: none; background: var(--surface); border: 1px solid var(--ring);
+  border-radius: 8px; padding: 8px 10px; font-size: 12px; color: var(--ink); box-shadow: 0 4px 16px rgba(0,0,0,.18);
+  z-index: 50; max-width: 240px; opacity: 0; transition: opacity .08s; left: 0; top: 0;
+}
+.tip.show { opacity: 1; }
+.empty svg { display: block; margin: 0 auto 12px; width: 40px; height: 40px; color: var(--muted); }
+</style>
+<script>
+try {
+  var storedTheme = localStorage.getItem('atlas-theme');
+  if (storedTheme === 'light' || storedTheme === 'dark') document.documentElement.setAttribute('data-theme', storedTheme);
+} catch (e) {}
+</script>
+</head>
+<body>
+<div class="wrap">
+  <h1>Immich Atlas</h1>
+  <div class="sub" id="serverline">Storage &amp; library analytics for your Immich server</div>
+  <div class="toolbar" id="toolbar" style="display:none">
+    <button id="btn" onclick="doRefresh()">Refresh now</button>
+    <button class="icon" id="settings-btn" onclick="showSettings()" aria-label="Settings" title="Settings"></button>
+    <span class="spacer"></span>
+    <span class="when" id="when"></span>
+    <span class="progress" id="prog"></span>
+    <button class="icon" id="theme-btn" onclick="toggleTheme()" aria-label="Toggle color theme" title="Toggle color theme"></button>
+  </div>
+  <div id="tabbar" class="tabbar" role="tablist" style="display:none"></div>
+  <div id="content"><div class="empty">Loading…</div></div>
+</div>
+<div class="tip" id="tip"></div>
+<script>
+'use strict';
+const $ = id => document.getElementById(id);
+
+// ---------------- theme ----------------
+const SUN_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
+const MOON_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/></svg>';
+function effectiveTheme() {
+  const stored = (() => { try { return localStorage.getItem('atlas-theme'); } catch { return null; } })();
+  if (stored === 'light' || stored === 'dark') return stored;
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
+function updateThemeIcon() {
+  const btn = $('theme-btn');
+  if (!btn) return;
+  btn.innerHTML = effectiveTheme() === 'dark' ? MOON_SVG : SUN_SVG;
+}
+function toggleTheme() {
+  const next = effectiveTheme() === 'dark' ? 'light' : 'dark';
+  try { localStorage.setItem('atlas-theme', next); } catch {}
+  document.documentElement.setAttribute('data-theme', next);
+  updateThemeIcon();
+}
+updateThemeIcon();
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+  try { if (!localStorage.getItem('atlas-theme')) updateThemeIcon(); } catch {}
+});
+
+const GEAR_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82A1.65 1.65 0 0 0 3 13.09H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>';
+const EMPTY_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 12h4.5l1.8 2.7h4.4L16 12h4.5"/><path d="M5 5.5h14l1.5 6.5v9a1 1 0 0 1-1 1H4.5a1 1 0 0 1-1-1v-9z"/></svg>';
+$('settings-btn').innerHTML = GEAR_SVG;
+
+// ---------------- icon set (outline, 24x24, currentColor — tint via parent's `color`) ----------------
+function ic(inner) { return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">${inner}</svg>`; }
+const ICONS = {
+  dashboard: ic('<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>'),
+  database: ic('<ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/>'),
+  calendar: ic('<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>'),
+  album: ic('<rect x="3" y="3" width="13" height="13" rx="2"/><path d="M3 13l3.5-3.5a2 2 0 0 1 2.8 0L13 13"/><circle cx="7" cy="7" r="1.1"/><path d="M8 21h13V8"/>'),
+  person: ic('<circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7"/>'),
+  file: ic('<path d="M6 2h9l5 5v15H6z"/><path d="M14 2v6h6"/>'),
+  camera: ic('<path d="M4 8h3l2-2h6l2 2h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="14" r="3.4"/>'),
+  play: ic('<circle cx="12" cy="12" r="9"/><path d="M10 8.5v7l6-3.5z" fill="currentColor" stroke="none"/>'),
+  idcard: ic('<rect x="2" y="5" width="20" height="14" rx="2"/><circle cx="8" cy="12" r="2"/><path d="M8 16.3c-1.8 0-3.2.8-3.2 2M13 10h6M13 14h6"/>'),
+  image: ic('<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.4"/><path d="M21 15l-5-5-9 9"/>'),
+  heart: ic('<path d="M12 21s-7-4.5-9.5-9C.8 8.4 2 4.5 6 4c2.2-.3 3.8 1 6 3.3C14.2 5 15.8 3.7 18 4c4 .5 5.2 4.4 3.5 8-2.5 4.5-9.5 9-9.5 9z"/>'),
+  layers: ic('<path d="M12 3 2 8l10 5 10-5-10-5z"/><path d="M2 13l10 5 10-5"/>'),
+};
+// fixed per-tab identity color, in the palette's documented hue order — never cycled
+const TAB_META = [
+  { key: 'overview', label: 'Overview', icon: ICONS.dashboard, color: 'var(--s1)' },
+  { key: 'storage', label: 'Storage', icon: ICONS.database, color: 'var(--s2)' },
+  { key: 'timeline', label: 'Timeline', icon: ICONS.calendar, color: 'var(--s3)' },
+  { key: 'albums', label: 'Albums', icon: ICONS.album, color: 'var(--s4)' },
+  { key: 'people', label: 'People', icon: ICONS.person, color: 'var(--s5)' },
+  { key: 'files', label: 'Files', icon: ICONS.file, color: 'var(--s6)' },
+  { key: 'videos', label: 'Videos', icon: ICONS.play, color: 'var(--s7)' },
+  { key: 'users', label: 'Users', icon: ICONS.idcard, color: 'var(--s8)' },
+];
+
+// ---------------- hover tooltip (delegated, survives re-renders) ----------------
+document.addEventListener('mousemove', e => {
+  const el = e.target.closest('[data-tip]');
+  const tip = $('tip');
+  if (!el) { tip.classList.remove('show'); return; }
+  const parts = el.getAttribute('data-tip').split('|');
+  tip.innerHTML = `<div style="font-weight:650;margin-bottom:2px">${parts[0]}</div><div>${parts[1]}</div><div style="color:var(--ink2)">${parts[2] || ''}</div>`;
+  tip.classList.add('show');
+  const vw = window.innerWidth, vh = window.innerHeight;
+  const w = tip.offsetWidth, h = tip.offsetHeight;
+  let x = e.clientX + 14, y = e.clientY + 14;
+  if (x + w > vw - 8) x = e.clientX - w - 14;
+  if (y + h > vh - 8) y = e.clientY - h - 14;
+  tip.style.left = x + 'px';
+  tip.style.top = y + 'px';
+});
+document.addEventListener('mouseleave', () => $('tip').classList.remove('show'));
+
+const fmtN = n => (n ?? 0).toLocaleString('en-US');
+const fmtPct = n => n.toLocaleString('en-US', { maximumFractionDigits: 1 });
+function fmtB(b) {
+  b = b || 0;
+  const abs = Math.abs(b);
+  if (abs >= 1099511627776) return (b / 1099511627776).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' TB';
+  if (abs >= 1073741824) return (b / 1073741824).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' GB';
+  if (abs >= 1048576) return (b / 1048576).toLocaleString('en-US', { maximumFractionDigits: 1 }) + ' MB';
+  if (abs >= 1024) return Math.round(b / 1024).toLocaleString('en-US') + ' KB';
+  return Math.round(b) + ' B';
+}
+function fmtDur(sec) {
+  const m = Math.floor(sec / 60), s = Math.floor(sec % 60);
+  return m + 'm' + String(s).padStart(2, '0') + 's';
+}
+const esc = s => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+function tile(v, l, d, delta, icon, color) {
+  const badge = icon ? `<div class="tile-icon" style="color:${color};background:color-mix(in srgb, ${color} 16%, transparent)">${icon}</div>` : '';
+  return `<div class="tile">${badge}<div class="v">${v}</div><div class="l">${l}</div>${d ? `<div class="d">${d}</div>` : ''}${delta ? `<div class="delta">${delta}</div>` : ''}</div>`;
+}
+function barTd(pct, color) {
+  return `<td class="barbg"><div class="bar" style="width:${pct}%;background:${color}"></div></td>`;
+}
+function donut2(pct, colorA, colorB, labelA, size, stroke) {
+  size = size || 132; stroke = stroke || 18;
+  const r = (size - stroke) / 2, c = 2 * Math.PI * r, cx = size / 2, cy = size / 2;
+  const aLen = c * Math.max(0, Math.min(100, pct)) / 100;
+  return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" role="img" aria-label="${fmtPct(pct)}% ${labelA}">
+    <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${colorB}" stroke-width="${stroke}"/>
+    <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${colorA}" stroke-width="${stroke}" stroke-linecap="round" stroke-dasharray="${aLen} ${c}" transform="rotate(-90 ${cx} ${cy})"/>
+    <text x="${cx}" y="${cy - 3}" text-anchor="middle" font-size="21" font-weight="650" fill="var(--ink)">${Math.round(pct)}%</text>
+    <text x="${cx}" y="${cy + 15}" text-anchor="middle" font-size="11" fill="var(--muted)">${esc(labelA)}</text>
+  </svg>`;
+}
+function emptyCard(msg) {
+  return `<div class="card"><div class="empty" style="padding:36px 20px">${EMPTY_SVG}<div>${msg}</div></div></div>`;
+}
+const EXTERNAL_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg>';
+function link(url, labelHtml) {
+  return url ? `<a class="rowlink" href="${esc(url)}" target="_blank" rel="noopener">${labelHtml}${EXTERNAL_SVG}</a>` : labelHtml;
+}
+function deltaText(n, isBytes) {
+  if (!n) return null;
+  const sign = n > 0 ? '+' : '−';
+  return `${sign}${isBytes ? fmtB(Math.abs(n)) : fmtN(Math.abs(n))} since last refresh`;
+}
+function computeDelta(rep) {
+  if (!rep.previous) return null;
+  const cur = rep.data.totals, prev = rep.previous.totals;
+  return {
+    items: (cur.photoCount + cur.videoCount) - (prev.photoCount + prev.videoCount),
+    photos: cur.photoCount - prev.photoCount,
+    videos: cur.videoCount - prev.videoCount,
+    bytes: (cur.photoBytes + cur.videoBytes) - (prev.photoBytes + prev.videoBytes),
+    favorites: cur.favCount - prev.favCount,
+    albums: cur.albumCount - prev.albumCount,
+    people: cur.peopleTotal - prev.peopleTotal,
+  };
+}
+function filterRows(input, tbodyId, countId) {
+  const q = input.value.trim().toLowerCase();
+  const tbody = $(tbodyId);
+  const rows = [...tbody.rows];
+  let shown = 0;
+  for (const r of rows) {
+    const match = !q || (r.dataset.name || '').includes(q);
+    r.hidden = !match;
+    if (match) shown++;
+  }
+  if (countId) $(countId).textContent = `${fmtN(shown)} of ${fmtN(rows.length)} shown`;
+}
+
+// ---------------- videos tab: client-side sort/limit over the cached dataset ----------------
+let videosData = [], videosBaseUrl = '';
+function renderVideosTable() {
+  const tbody = $('videos-rows');
+  if (!tbody) return;
+  const sortBy = $('videos-sort') ? $('videos-sort').value : 'size';
+  const limit = $('videos-limit') ? parseInt($('videos-limit').value, 10) : 25;
+  const sorted = [...videosData]
+    .sort((a, b) => sortBy === 'duration' ? b.durationSec - a.durationSec : b.size - a.size)
+    .slice(0, limit);
+  tbody.innerHTML = sorted.map((v, i) => `<tr><td class="num" style="color:var(--muted)">${i + 1}</td><td class="mono">${link(v.id ? `${videosBaseUrl}/photos/${v.id}` : null, `<span class="trunc" title="${esc(v.name)}">${esc(v.name)}</span>`)}</td><td class="mono">${v.date ? new Date(v.date).toLocaleDateString() : '—'}</td><td class="num">${v.durationSec > 0 ? fmtDur(v.durationSec) : ''}</td><td class="num">${fmtB(v.size)}</td></tr>`).join('');
+  const countEl = $('videos-count');
+  if (countEl) countEl.textContent = `${fmtN(sorted.length)} of ${fmtN(videosData.length)} available`;
+}
+
+// ---------------- tabs ----------------
+let activeTab = 'overview';
+function switchTab(key) {
+  activeTab = key;
+  for (const t of TAB_META) {
+    const btn = $('tab-' + t.key), panel = $('panel-' + t.key);
+    if (!btn || !panel) continue;
+    const on = t.key === key;
+    btn.setAttribute('aria-selected', String(on));
+    panel.hidden = !on;
+  }
+}
+
+function buildSections(d, t, totalCount, totalBytes, delta) {
+  const s = {};
+
+  const vh = Math.floor(t.videoSeconds / 3600), vm = Math.floor((t.videoSeconds % 3600) / 60);
+  const pn = totalCount ? 100 * t.photoCount / totalCount : 0;
+  const pb = totalBytes ? 100 * t.photoBytes / totalBytes : 0;
+  s.overview = `
+    <div class="tiles">
+      ${tile(fmtN(totalCount), 'total items', null, delta && deltaText(delta.items), ICONS.layers, 'var(--s1)')}
+      ${tile(fmtN(t.photoCount), 'photos', fmtB(t.photoBytes), delta && deltaText(delta.photos), ICONS.image, 'var(--s1)')}
+      ${tile(fmtN(t.videoCount), 'videos', `${fmtB(t.videoBytes)} · ${vh}h${String(vm).padStart(2, '0')} total runtime`, delta && deltaText(delta.videos), ICONS.play, 'var(--s2)')}
+      ${tile(fmtB(totalBytes), 'originals size', null, delta && deltaText(delta.bytes, true), ICONS.database, 'var(--s8)')}
+      ${tile(fmtN(t.favCount), 'favorites', null, delta && deltaText(delta.favorites), ICONS.heart, 'var(--s6)')}
+      ${tile(fmtN(t.albumCount), 'albums', null, delta && deltaText(delta.albums), ICONS.album, 'var(--s4)')}
+      ${tile(fmtN(t.peopleTotal), 'people recognized', null, delta && deltaText(delta.people), ICONS.person, 'var(--s5)')}
+    </div>
+    <h2>Photos × videos</h2>
+    <div class="card">
+      <div class="donut-row">
+        <div class="donut">${donut2(pb, 'var(--s1)', 'var(--s2)', 'photos')}</div>
+        <div class="donut-figures">
+          <div style="color:var(--ink2);font-size:13px;margin-bottom:6px">Count — photos ${fmtPct(pn)}% · videos ${fmtPct(100 - pn)}%</div>
+          <div class="stack"><div style="width:${pn}%;background:var(--s1)"></div><div style="width:${100 - pn}%;background:var(--s2)"></div></div>
+          <div style="color:var(--ink2);font-size:13px;margin:14px 0 6px">Disk space — photos ${fmtPct(pb)}% (${fmtB(t.photoBytes)}) · videos ${fmtPct(100 - pb)}% (${fmtB(t.videoBytes)})</div>
+          <div class="stack"><div style="width:${pb}%;background:var(--s1)"></div><div style="width:${100 - pb}%;background:var(--s2)"></div></div>
+          <div class="legend"><span><i class="dot" style="background:var(--s1)"></i>Photos</span><span><i class="dot" style="background:var(--s2)"></i>Videos</span></div>
+        </div>
+      </div>
+    </div>`;
+
+  if (d.diskFolders && d.diskFolders.length) {
+    const dt2 = d.diskFolders.reduce((a, f) => a + f.bytes, 0);
+    const df = d.diskFolders.reduce((a, f) => a + f.files, 0);
+    const pal = ['var(--s1)', 'var(--s2)', 'var(--s3)', 'var(--s5)', 'var(--s6)', 'var(--s8)'];
+    s.storage = `<div class="card">
+      <div style="color:var(--ink2);font-size:13px;margin-bottom:10px">Total in the Immich folder: <b>${fmtB(dt2)}</b> across ${fmtN(df)} files</div>
+      <div class="stack">${d.diskFolders.map((f, i) => `<div style="width:${Math.max(0.15, 100 * f.bytes / dt2)}%;background:${pal[i % pal.length]}" title="${esc(f.label)}: ${fmtB(f.bytes)}"></div>`).join('')}</div>
+      <div class="legend">${d.diskFolders.map((f, i) => `<span><i class="dot" style="background:${pal[i % pal.length]}"></i>${esc(f.label)}</span>`).join('')}</div>
+      <div style="margin-top:14px" class="scroll"><table>
+        <tr><th>Folder</th><th>Contents</th><th class="num">Files</th><th class="num">Size</th><th class="num">%</th></tr>
+        ${d.diskFolders.map(f => `<tr><td class="mono">${esc(f.key)}/</td><td style="color:var(--ink2)">${esc(f.desc)}</td><td class="num">${fmtN(f.files)}</td><td class="num">${fmtB(f.bytes)}</td><td class="num">${fmtPct(100 * f.bytes / dt2)}%</td></tr>`).join('')}
+      </table></div>
+      ${d.storage ? `<div class="note">Server disk: ${esc(d.storage.diskUse)} used of ${esc(d.storage.diskSize)} (${esc(d.storage.diskAvailable)} free)</div>` : ''}
+    </div>`;
+  } else {
+    s.storage = emptyCard('The Immich upload folder is not mounted, so per-folder disk usage isn\'t available.<br>Mount it read-only at /upload to enable this tab.');
+  }
+
+  let timelineHtml = '';
+  if (d.byMonth && d.byMonth.length > 1) {
+    const bw = 14, gap = 2, x0 = 8, plotH = 170;
+    const n = d.byMonth.length;
+    const cw = Math.max(760, n * (bw + gap) + 60);
+    const maxV = Math.max(...d.byMonth.map(m => m.count), 1);
+    let svg = '';
+    for (const frac of [0.25, 0.5, 0.75, 1]) {
+      const gy = plotH - plotH * frac + 14;
+      svg += `<line x1="${x0}" y1="${gy}" x2="${cw - 4}" y2="${gy}" stroke="var(--grid)"/>` +
+             `<text x="${x0}" y="${gy - 3}" font-size="10" fill="var(--muted)">${fmtN(Math.round(maxV * frac))}</text>`;
+    }
+    svg += `<line x1="${x0}" y1="${plotH + 14}" x2="${cw - 4}" y2="${plotH + 14}" stroke="var(--baseline)"/>`;
+    let lastYear = '';
+    d.byMonth.forEach((m, i) => {
+      const x = x0 + i * (bw + gap);
+      const hP = plotH * m.photos / maxV, hV = plotH * m.videos / maxV;
+      const yV = 14 + plotH - hV, yP = yV - hP;
+      const tipStr = `${esc(m.key)}|${fmtN(m.count)} items (${fmtN(m.photos)} photos, ${fmtN(m.videos)} videos)|${fmtB(m.bytes)}`;
+      svg += `<g data-tip="${esc(tipStr)}"><rect x="${x - 1}" y="14" width="${bw + 2}" height="${plotH}" fill="transparent"/>`;
+      if (hV > 0) svg += `<rect x="${x}" y="${yV}" width="${bw}" height="${hV}" fill="var(--s2)"/>`;
+      if (hP > 0) svg += `<rect x="${x}" y="${yP}" width="${bw}" height="${hP}" rx="2" fill="var(--s1)"/>`;
+      svg += '</g>';
+      const yr = m.key.slice(0, 4);
+      if (yr !== lastYear) {
+        svg += `<text x="${x}" y="${plotH + 30}" font-size="11" fill="var(--ink2)">${yr}</text>` +
+               `<line x1="${x - 1}" y1="14" x2="${x - 1}" y2="${plotH + 18}" stroke="var(--grid)"/>`;
+        lastYear = yr;
+      }
+    });
+    timelineHtml += `<div class="card scroll">
+      <svg width="${cw}" height="220" role="img" aria-label="Items per month">${svg}</svg>
+      <div class="legend"><span><i class="dot" style="background:var(--s1)"></i>Photos</span><span><i class="dot" style="background:var(--s2)"></i>Videos</span></div>
+      ${t.noDateCount ? `<div class="note">${fmtN(t.noDateCount)} items without a date are not shown.</div>` : ''}
+    </div>`;
+  }
+  if (d.byYear && d.byYear.length) {
+    const maxB = Math.max(...d.byYear.map(y => y.bytes), 1);
+    timelineHtml += `<h2>${ICONS.calendar}By year</h2><div class="card scroll"><table>
+      <tr><th>Year</th><th class="num">Photos</th><th class="num">Videos</th><th class="num">Total</th><th class="num">Size</th><th></th></tr>
+      ${d.byYear.map(y => `<tr><td class="mono">${y.key}</td><td class="num">${fmtN(y.photos)}</td><td class="num">${fmtN(y.videos)}</td><td class="num">${fmtN(y.count)}</td><td class="num">${fmtB(y.bytes)}</td>${barTd(100 * y.bytes / maxB, 'var(--s1)')}</tr>`).join('')}
+    </table></div>`;
+  }
+  s.timeline = timelineHtml || emptyCard('Not enough dated items to build a timeline.');
+
+  if (d.albums && d.albums.length) {
+    const maxB = Math.max(...d.albums.map(a => a.bytes), 1);
+    s.albums = `<div class="card scroll">
+      <div class="filterbar">
+        <input type="search" placeholder="Filter albums…" oninput="filterRows(this,'albums-rows','albums-count')">
+        <span class="count" id="albums-count">${fmtN(d.albums.length)} of ${fmtN(d.albums.length)} shown</span>
+      </div>
+      <table>
+      <thead><tr><th>Album</th><th class="num">Items</th><th class="num">Photos</th><th class="num">Videos</th><th class="num">Size</th><th></th></tr></thead>
+      <tbody id="albums-rows">
+      ${d.albums.map(a => `<tr data-name="${esc(a.name.toLowerCase())}"><td>${link(a.id ? `${d.server.url}/albums/${a.id}` : null, esc(a.name))}${a.shared ? ' <span class="tag">shared</span>' : ''}</td><td class="num">${fmtN(a.count)}</td><td class="num">${fmtN(a.photos)}</td><td class="num">${fmtN(a.videos)}</td><td class="num">${fmtB(a.bytes)}</td>${barTd(100 * a.bytes / maxB, 'var(--s5)')}</tr>`).join('')}
+      </tbody>
+    </table></div>`;
+  } else s.albums = emptyCard('No albums found.');
+
+  if (d.people && d.people.length) {
+    const maxC = Math.max(...d.people.map(p => p.count), 1);
+    s.people = `<div class="card scroll">
+      <div style="color:var(--ink2);font-size:13px;margin-bottom:8px">${fmtN(t.peopleTotal)} people in total · showing the top ${d.people.length} · size computed for the top 15</div>
+      <div class="filterbar">
+        <input type="search" placeholder="Filter people…" oninput="filterRows(this,'people-rows','people-count')">
+        <span class="count" id="people-count">${fmtN(d.people.length)} of ${fmtN(d.people.length)} shown</span>
+      </div>
+      <table><thead><tr><th>Person</th><th class="num">Items they appear in</th><th class="num">Size of those items</th><th></th></tr></thead>
+      <tbody id="people-rows">
+      ${d.people.map(p => `<tr data-name="${esc(p.name.toLowerCase())}"><td>${link(p.id ? `${d.server.url}/people/${p.id}` : null, esc(p.name))}</td><td class="num">${fmtN(p.count)}</td><td class="num">${p.bytes >= 0 ? fmtB(p.bytes) : '—'}</td>${barTd(100 * p.count / maxC, 'var(--s2)')}</tr>`).join('')}
+      </tbody>
+      </table>
+      <div class="note">Note: a photo with several people counts once for each of them, so sizes overlap.</div>
+    </div>`;
+  } else s.people = emptyCard('No people recognized.');
+
+  let filesHtml = '';
+  if (d.byExt && d.byExt.length) {
+    const maxB = Math.max(...d.byExt.map(e => e.bytes), 1);
+    filesHtml += `<h2>${ICONS.file}File types</h2><div class="card scroll"><table>
+      <tr><th>Extension</th><th class="num">Files</th><th class="num">Size</th><th class="num">Avg per file</th><th></th></tr>
+      ${d.byExt.map(e => `<tr><td class="mono">${esc(e.key)}</td><td class="num">${fmtN(e.count)}</td><td class="num">${fmtB(e.bytes)}</td><td class="num">${fmtB(e.count ? e.bytes / e.count : 0)}</td>${barTd(100 * e.bytes / maxB, 'var(--s3)')}</tr>`).join('')}
+    </table></div>`;
+  }
+  if (d.byCamera && d.byCamera.length) {
+    const maxC = Math.max(...d.byCamera.map(c => c.count), 1);
+    filesHtml += `<h2>${ICONS.camera}Cameras &amp; devices</h2><div class="card scroll"><table>
+      <tr><th>Device</th><th class="num">Items</th><th class="num">Size</th><th></th></tr>
+      ${d.byCamera.map(c => `<tr><td>${esc(c.key)}</td><td class="num">${fmtN(c.count)}</td><td class="num">${fmtB(c.bytes)}</td>${barTd(100 * c.count / maxC, 'var(--s8)')}</tr>`).join('')}
+    </table></div>`;
+  }
+  s.files = filesHtml || emptyCard('No file type data yet.');
+
+  if (d.topVideos && d.topVideos.length) {
+    videosData = d.topVideos;
+    videosBaseUrl = d.server.url;
+    s.videos = `<div class="card scroll">
+      <div style="color:var(--ink2);font-size:13px;margin-bottom:8px">Drawn from the largest ${fmtN(d.topVideos.length)} videos by size and by duration combined</div>
+      <div class="filterbar">
+        <label class="field">Sort by <select id="videos-sort" onchange="renderVideosTable()">
+          <option value="size">Size</option>
+          <option value="duration">Duration</option>
+        </select></label>
+        <label class="field">Show <select id="videos-limit" onchange="renderVideosTable()">
+          <option value="10">10</option>
+          <option value="25" selected>25</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+          <option value="200">200</option>
+        </select></label>
+        <span class="count" id="videos-count"></span>
+      </div>
+      <table><thead><tr><th>#</th><th>File</th><th>Date</th><th class="num">Duration</th><th class="num">Size</th></tr></thead>
+      <tbody id="videos-rows"></tbody></table>
+    </div>`;
+  } else { s.videos = emptyCard('No videos found.'); videosData = []; }
+
+  if (d.usageByUser && d.usageByUser.length) {
+    s.users = `<div class="card scroll"><table>
+      <tr><th>User</th><th class="num">Photos</th><th class="num">Videos</th><th class="num">Usage</th><th class="num">Quota</th></tr>
+      ${d.usageByUser.map(u => `<tr><td>${esc(u.name)}</td><td class="num">${fmtN(u.photos)}</td><td class="num">${fmtN(u.videos)}</td><td class="num">${fmtB(u.usage)}</td><td class="num">${u.quota ? fmtB(u.quota) : 'unlimited'}</td></tr>`).join('')}
+    </table></div>`;
+  } else s.users = emptyCard('No per-user data available.');
+
+  return s;
+}
+
+function render(rep) {
+  const d = rep.data, t = d.totals;
+  const totalCount = t.photoCount + t.videoCount;
+  const totalBytes = t.photoBytes + t.videoBytes;
+  $('serverline').textContent = `${d.server.url} · Immich ${d.server.version}`;
+  $('when').textContent = `Updated ${new Date(rep.generatedAt).toLocaleString()}`;
+
+  const sections = buildSections(d, t, totalCount, totalBytes, computeDelta(rep));
+  const keepTab = TAB_META.some(x => x.key === activeTab) ? activeTab : 'overview';
+
+  $('tabbar').innerHTML = TAB_META.map(x =>
+    `<button class="tab" id="tab-${x.key}" role="tab" aria-selected="${x.key === keepTab}" style="--tab-accent:${x.color}" onclick="switchTab('${x.key}')"><span style="color:${x.color}">${x.icon}</span><span>${x.label}</span></button>`
+  ).join('');
+  $('tabbar').style.display = 'flex';
+
+  $('content').innerHTML = TAB_META.map(x =>
+    `<section class="panel" id="panel-${x.key}" role="tabpanel" ${x.key === keepTab ? '' : 'hidden'}>${sections[x.key] || ''}</section>`
+  ).join('');
+
+  switchTab(keepTab);
+  renderVideosTable();
+}
+
+// ---------------- setup / settings ----------------
+async function showSettings() {
+  $('tabbar').style.display = 'none';
+  const c = await (await fetch('/api/config')).json();
+  $('content').innerHTML = `<div class="card setup">
+    <h2 style="margin-top:0">Connect to Immich</h2>
+    <label>Immich server URL</label>
+    <input id="cfg-url" placeholder="http://192.168.1.10:2283" value="${esc(c.immichUrl || '')}" ${c.envLocked.url ? 'disabled' : ''}>
+    <label>API key ${c.apiKeySet ? '(saved — leave blank to keep)' : ''}</label>
+    <input id="cfg-key" type="password" placeholder="${c.apiKeySet ? '••••••••' : 'paste your API key'}" ${c.envLocked.key ? 'disabled' : ''}>
+    <label>Auto-refresh interval (hours)</label>
+    <input id="cfg-hours" type="number" min="1" step="1" value="${c.refreshHours}" ${c.envLocked.refreshHours ? 'disabled' : ''}>
+    <div class="note">Create an API key in Immich under Account Settings → API Keys.${c.uploadDirMounted ? '' : '<br>Tip: mount the Immich upload folder read-only at /upload to enable the disk usage section.'}</div>
+    <div class="err" id="cfg-err"></div>
+    <div class="actions">
+      <button onclick="saveConfig()">Save &amp; connect</button>
+      <button class="ghost" onclick="init()">Cancel</button>
+    </div>
+  </div>`;
+}
+async function saveConfig() {
+  $('cfg-err').textContent = '';
+  const body = {
+    immichUrl: $('cfg-url').value.trim(),
+    apiKey: $('cfg-key').value.trim(),
+    refreshHours: parseFloat($('cfg-hours').value) || 24,
+  };
+  const r = await fetch('/api/config', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+  const j = await r.json();
+  if (!r.ok) { $('cfg-err').textContent = j.error || 'failed to save'; return; }
+  init();
+}
+
+// ---------------- refresh / status ----------------
+let pollTimer = null;
+async function poll() {
+  try {
+    const s = await (await fetch('/api/status')).json();
+    if (s.running) {
+      $('btn').disabled = true;
+      $('prog').innerHTML = `<span class="spin">⟳</span> ${esc(s.phase)}${s.detail ? ' — ' + esc(s.detail) : ''}`;
+    } else {
+      $('btn').disabled = false;
+      $('prog').textContent = s.lastError ? 'Error: ' + s.lastError : '';
+      if (pollTimer) { clearInterval(pollTimer); pollTimer = null; if (!s.lastError) await loadReport(); }
+    }
+  } catch {}
+}
+async function doRefresh() {
+  await fetch('/api/refresh', { method: 'POST' });
+  $('btn').disabled = true;
+  if (!pollTimer) pollTimer = setInterval(poll, 1500);
+  poll();
+}
+async function loadReport() {
+  try {
+    const r = await fetch('/api/report');
+    if (r.ok) { render(await r.json()); return true; }
+  } catch {}
+  return false;
+}
+
+async function init() {
+  const s = await (await fetch('/api/status')).json();
+  if (!s.configured) {
+    $('toolbar').style.display = 'none';
+    showSettings();
+    return;
+  }
+  $('toolbar').style.display = 'flex';
+  const ok = await loadReport();
+  if (!ok) {
+    $('tabbar').style.display = 'none';
+    $('content').innerHTML = `<div class="empty">${EMPTY_SVG}No report yet.<br>Click <b>Refresh now</b> — the first collection takes a few minutes.</div>`;
+  }
+  if (s.generatedAt) $('when').textContent = `Updated ${new Date(s.generatedAt).toLocaleString()}`;
+  if (s.running && !pollTimer) { pollTimer = setInterval(poll, 1500); poll(); }
+}
+init();
+</script>
+</body>
+</html>
