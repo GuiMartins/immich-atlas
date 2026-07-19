@@ -50,7 +50,11 @@ async function apiWith(url, key, p, body) {
     opts.body = JSON.stringify(body);
   }
   const res = await fetch(`${url}/api${p}`, opts);
-  if (!res.ok) throw new Error(`Immich API ${p} -> HTTP ${res.status}`);
+  if (!res.ok) {
+    const err = new Error(`Immich API ${p} -> HTTP ${res.status}`);
+    err.status = res.status;
+    throw err;
+  }
   return res.json();
 }
 const api = (p, body) => { const c = config(); return apiWith(c.url, c.key, p, body); };
@@ -338,7 +342,15 @@ const server = http.createServer(async (req, res) => {
         json(res, 200, { ok: true, immichVersion: about.version });
         if (!report) refresh();
       } catch (e) {
-        json(res, 400, { error: `could not reach Immich: ${String((e && e.message) || e)}` });
+        let msg;
+        if (e && (e.status === 401 || e.status === 403)) {
+          msg = 'Invalid API key — check that you copied it correctly and that it has not been revoked.';
+        } else if (e && e.status) {
+          msg = `Immich server responded with HTTP ${e.status}. Double-check the server URL.`;
+        } else {
+          msg = `Could not reach ${newUrl} — check the server URL and that Atlas can access it on the network. (${String((e && e.message) || e)})`;
+        }
+        json(res, 400, { error: msg });
       }
 
     } else if (req.method === 'POST' && url.pathname === '/api/refresh') {
