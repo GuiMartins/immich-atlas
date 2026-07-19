@@ -50,6 +50,13 @@ A ready-to-use app manifest lives in [`casaos/docker-compose.yml`](casaos/docker
 Install it via *Custom Install* by importing that compose file, or through the
 BigBear app store once published there.
 
+> **Don't `docker run` / plain `docker compose up` it directly on CasaOS/ZimaOS.**
+> A container started outside CasaOS's own app manager shows up as a generic
+> "Legacy app" with no icon and no working "open" button, even though the app
+> itself runs fine. Install it through the CasaOS UI (*Custom Install* → paste
+> the compose file) or with `casaos-cli app-management install -f docker-compose.yml`
+> so CasaOS picks up the `x-casaos` metadata (icon, title, web UI port).
+
 ## Configuration
 
 Everything can be configured in the web UI. Environment variables are optional
