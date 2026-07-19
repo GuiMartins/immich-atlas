@@ -2,6 +2,10 @@
 
 **Storage & library analytics dashboard for your [Immich](https://immich.app) server.**
 
+*An unofficial, community-built companion tool — not affiliated with or endorsed by the
+Immich project. The icon combines the [official Immich logo](https://github.com/immich-app/immich)
+with a magnifying-glass badge to signal "analytics for Immich."*
+
 Immich shows you your photos. Atlas shows you your *library*: where the space goes,
 how it grew over the years, which albums and people weigh the most, and what is
 actually sitting on your disk.
