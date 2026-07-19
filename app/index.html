@@ -121,6 +121,12 @@ a.rowlink:hover { color: var(--s1); text-decoration: underline; }
 .tip.show { opacity: 1; }
 .empty svg { display: block; margin: 0 auto 12px; width: 40px; height: 40px; color: var(--muted); }
 </style>
+<script>
+try {
+  var storedTheme = localStorage.getItem('atlas-theme');
+  if (storedTheme === 'light' || storedTheme === 'dark') document.documentElement.setAttribute('data-theme', storedTheme);
+} catch (e) {}
+</script>
 </head>
 <body>
 <div class="wrap">
