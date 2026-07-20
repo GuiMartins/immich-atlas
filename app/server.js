@@ -144,9 +144,8 @@ async function collect() {
     if (isVideo) v.videos++; else v.photos++;
   };
 
-  for await (const a of allAssets()) {
+  const processAsset = a => {
     seen++;
-    if (seen % 1000 === 0) setPhase('Fetching assets', String(seen));
     const size = (a.exifInfo && a.exifInfo.fileSizeInByte) ? Number(a.exifInfo.fileSizeInByte) : 0;
     const isVideo = a.type === 'VIDEO';
     if (isVideo) { videoCount++; videoBytes += size; } else { photoCount++; photoBytes += size; }
@@ -174,6 +173,38 @@ async function collect() {
       videoSeconds += dur;
       videos.push({ id: a.id, name: a.originalFileName, size, durationSec: dur, date: dt ? dt.toISOString() : null });
     }
+  };
+
+  // Fetch pages in small parallel batches instead of one at a time. We can't
+  // know the true page count upfront (Immich's `assets.total` on this
+  // endpoint reflects the page, not the whole query, despite the name), so
+  // this follows `nextPage` for real: fetch a batch of consecutive page
+  // numbers, then continue from the *highest-numbered page that actually had
+  // items*' own nextPage — never a stale one from an earlier page in the
+  // batch, which would either skip or reprocess a page.
+  const BATCH = 5;
+  const fetchPage = page => api('/search/metadata', { page, size: 1000, withExif: true }).catch(() => null);
+
+  const first = await fetchPage(1);
+  let cursor = null;
+  if (first) {
+    for (const a of first.assets.items) processAsset(a);
+    cursor = first.assets.nextPage ? parseInt(first.assets.nextPage, 10) : null;
+  }
+  setPhase('Fetching assets', String(seen));
+
+  while (cursor != null) {
+    const batch = Array.from({ length: BATCH }, (_, i) => cursor + i);
+    const results = await pMap(batch, BATCH, fetchPage);
+    let lastGoodResult = null;
+    for (const r of results) {
+      if (r && r.assets.items.length > 0) {
+        for (const a of r.assets.items) processAsset(a);
+        lastGoodResult = r;
+      }
+    }
+    setPhase('Fetching assets', String(seen));
+    cursor = (lastGoodResult && lastGoodResult.assets.nextPage) ? parseInt(lastGoodResult.assets.nextPage, 10) : null;
   }
   // ship the union of top-by-size and top-by-duration so the UI can sort/limit
   // client-side without a re-collection, while staying accurate for either sort
