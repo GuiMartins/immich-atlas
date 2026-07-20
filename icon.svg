@@ -1,13 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <line x1="307" y1="307" x2="465" y2="465" stroke="#20263a" stroke-width="46" stroke-linecap="round"/>
-  <circle cx="200" cy="200" r="153" fill="none" stroke="#20263a" stroke-width="36"/>
-  <circle cx="200" cy="200" r="135" fill="#fcfcfb"/>
-  <circle cx="200" cy="200" r="96" fill="none" stroke="#2a78d6" stroke-width="32" stroke-dasharray="69.3 533.5" transform="rotate(-90 200 200)"/>
-  <circle cx="200" cy="200" r="96" fill="none" stroke="#1baf7a" stroke-width="32" stroke-dasharray="69.3 533.5" transform="rotate(-45 200 200)"/>
-  <circle cx="200" cy="200" r="96" fill="none" stroke="#eda100" stroke-width="32" stroke-dasharray="69.3 533.5" transform="rotate(0 200 200)"/>
-  <circle cx="200" cy="200" r="96" fill="none" stroke="#008300" stroke-width="32" stroke-dasharray="69.3 533.5" transform="rotate(45 200 200)"/>
-  <circle cx="200" cy="200" r="96" fill="none" stroke="#4a3aa7" stroke-width="32" stroke-dasharray="69.3 533.5" transform="rotate(90 200 200)"/>
-  <circle cx="200" cy="200" r="96" fill="none" stroke="#e34948" stroke-width="32" stroke-dasharray="69.3 533.5" transform="rotate(135 200 200)"/>
-  <circle cx="200" cy="200" r="96" fill="none" stroke="#e87ba4" stroke-width="32" stroke-dasharray="69.3 533.5" transform="rotate(180 200 200)"/>
-  <circle cx="200" cy="200" r="96" fill="none" stroke="#eb6834" stroke-width="32" stroke-dasharray="69.3 533.5" transform="rotate(225 200 200)"/>
+  <line x1="357.4" y1="357.4" x2="436.6" y2="436.6" stroke="#20263a" stroke-width="50" stroke-linecap="round"/>
+  <circle cx="228" cy="228" r="175" fill="none" stroke="#20263a" stroke-width="40"/>
+  <circle cx="228" cy="228" r="155" fill="#fcfcfb"/>
+  <circle cx="228" cy="228" r="110" fill="none" stroke="#2a78d6" stroke-width="36" stroke-dasharray="78.4 612.8" transform="rotate(-90 228 228)"/>
+  <circle cx="228" cy="228" r="110" fill="none" stroke="#1baf7a" stroke-width="36" stroke-dasharray="78.4 612.8" transform="rotate(-45 228 228)"/>
+  <circle cx="228" cy="228" r="110" fill="none" stroke="#eda100" stroke-width="36" stroke-dasharray="78.4 612.8" transform="rotate(0 228 228)"/>
+  <circle cx="228" cy="228" r="110" fill="none" stroke="#008300" stroke-width="36" stroke-dasharray="78.4 612.8" transform="rotate(45 228 228)"/>
+  <circle cx="228" cy="228" r="110" fill="none" stroke="#4a3aa7" stroke-width="36" stroke-dasharray="78.4 612.8" transform="rotate(90 228 228)"/>
+  <circle cx="228" cy="228" r="110" fill="none" stroke="#e34948" stroke-width="36" stroke-dasharray="78.4 612.8" transform="rotate(135 228 228)"/>
+  <circle cx="228" cy="228" r="110" fill="none" stroke="#e87ba4" stroke-width="36" stroke-dasharray="78.4 612.8" transform="rotate(180 228 228)"/>
+  <circle cx="228" cy="228" r="110" fill="none" stroke="#eb6834" stroke-width="36" stroke-dasharray="78.4 612.8" transform="rotate(225 228 228)"/>
 </svg>
