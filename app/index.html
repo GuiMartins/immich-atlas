@@ -136,6 +136,13 @@ a.rowlink:hover svg { opacity: 1; }
 }
 .tip.show { opacity: 1; }
 .empty svg { display: block; margin: 0 auto 12px; width: 40px; height: 40px; color: var(--muted); }
+.scroll table tr:first-child th { position: sticky; top: 0; background: var(--surface); z-index: 2; }
+.highlight-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+.highlight { display: flex; gap: 12px; align-items: flex-start; }
+.hi-icon { width: 34px; height: 34px; border-radius: 9px; display: flex; align-items: center; justify-content: center; flex: none; }
+.hi-icon svg { width: 18px; height: 18px; }
+.hi-v { font-weight: 650; }
+.hi-l { color: var(--ink2); font-size: 12px; margin-top: 1px; }
 </style>
 <script>
 try {
@@ -273,6 +280,63 @@ function donut2(pct, colorA, colorB, labelA, size, stroke) {
     <text x="${cx}" y="${cy + 15}" text-anchor="middle" font-size="11" fill="var(--muted)">${esc(labelA)}</text>
   </svg>`;
 }
+function growthChart(history) {
+  if (!history || history.length < 2) return '';
+  const w = Math.max(500, Math.min(900, history.length * 30 + 100)), h = 200;
+  const padL = 54, padR = 16, padT = 16, padB = 26;
+  const plotW = w - padL - padR, plotH = h - padT - padB;
+  const maxB = Math.max(...history.map(p => p.totalBytes), 1);
+  const x = i => padL + (history.length === 1 ? plotW / 2 : plotW * i / (history.length - 1));
+  const y = v => padT + plotH - (plotH * v / maxB);
+  let svg = '';
+  for (const frac of [0.25, 0.5, 0.75, 1]) {
+    const gy = padT + plotH - plotH * frac;
+    svg += `<line x1="${padL}" y1="${gy}" x2="${w - padR}" y2="${gy}" stroke="var(--grid)"/>`;
+    svg += `<text x="${padL - 8}" y="${gy + 3}" font-size="10" fill="var(--muted)" text-anchor="end">${esc(fmtB(maxB * frac))}</text>`;
+  }
+  svg += `<line x1="${padL}" y1="${padT + plotH}" x2="${w - padR}" y2="${padT + plotH}" stroke="var(--baseline)"/>`;
+  const linePts = history.map((p, i) => `${x(i)},${y(p.totalBytes)}`).join(' ');
+  const areaPts = `${x(0)},${padT + plotH} ${linePts} ${x(history.length - 1)},${padT + plotH}`;
+  svg += `<polygon points="${areaPts}" fill="var(--s1)" opacity=".12"/>`;
+  svg += `<polyline points="${linePts}" fill="none" stroke="var(--s1)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`;
+  history.forEach((p, i) => {
+    const tip = `${esc(new Date(p.at).toLocaleDateString())}|${esc(fmtB(p.totalBytes))} total|${esc(fmtN(p.totalCount))} items`;
+    svg += `<g data-tip="${esc(tip)}"><rect x="${x(i) - 8}" y="${padT}" width="16" height="${plotH}" fill="transparent"/></g>`;
+  });
+  const last = history[history.length - 1];
+  svg += `<circle cx="${x(history.length - 1)}" cy="${y(last.totalBytes)}" r="4" fill="var(--s1)"/>`;
+  return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" role="img" aria-label="Library size over tracked refreshes">${svg}</svg>`;
+}
+function buildHighlightsHtml(d) {
+  const items = [];
+  if (d.byYear && d.byYear.length) {
+    const top = [...d.byYear].sort((a, b) => b.bytes - a.bytes)[0];
+    items.push({ icon: ICONS.calendar, color: 'var(--s3)', value: esc(top.key), label: `busiest year — ${fmtB(top.bytes)} added` });
+  }
+  if (d.people && d.people.length) {
+    const top = d.people[0];
+    items.push({ icon: ICONS.person, color: 'var(--s5)', value: esc(top.name), label: `appears most — ${fmtN(top.count)} items`, url: top.id ? `${d.server.url}/people/${top.id}` : null });
+  }
+  if (d.albums && d.albums.length) {
+    const top = d.albums[0];
+    items.push({ icon: ICONS.album, color: 'var(--s4)', value: esc(top.name), label: `biggest album — ${fmtB(top.bytes)}`, url: top.id ? `${d.server.url}/albums/${top.id}` : null });
+  }
+  if (d.byCamera && d.byCamera.length) {
+    const top = d.byCamera[0];
+    items.push({ icon: ICONS.camera, color: 'var(--s6)', value: esc(top.key), label: `top device — ${fmtN(top.count)} items` });
+  }
+  if (d.topVideos && d.topVideos.length) {
+    const top = [...d.topVideos].sort((a, b) => b.size - a.size)[0];
+    items.push({ icon: ICONS.play, color: 'var(--s7)', value: fmtB(top.size), label: `largest video${top.durationSec > 0 ? ' · ' + fmtDur(top.durationSec) : ''}`, url: top.id ? `${d.server.url}/photos/${top.id}` : null });
+  }
+  if (!items.length) return '';
+  return `<h2>Highlights</h2><div class="card"><div class="highlight-grid">
+    ${items.map(hi => `<div class="highlight">
+      <span class="hi-icon" style="color:${hi.color};background:color-mix(in srgb, ${hi.color} 16%, transparent)">${hi.icon}</span>
+      <div><div class="hi-v">${link(hi.url, hi.value)}</div><div class="hi-l">${hi.label}</div></div>
+    </div>`).join('')}
+  </div></div>`;
+}
 function emptyCard(msg) {
   return `<div class="card"><div class="empty" style="padding:36px 20px">${EMPTY_SVG}<div>${msg}</div></div></div>`;
 }
@@ -339,7 +403,7 @@ function switchTab(key) {
   }
 }
 
-function buildSections(d, t, totalCount, totalBytes, delta) {
+function buildSections(d, t, totalCount, totalBytes, delta, history) {
   const s = {};
 
   const vh = Math.floor(t.videoSeconds / 3600), vm = Math.floor((t.videoSeconds % 3600) / 60);
@@ -355,6 +419,7 @@ function buildSections(d, t, totalCount, totalBytes, delta) {
       ${tile(fmtN(t.albumCount), 'albums', null, delta && deltaText(delta.albums), ICONS.album, 'var(--s4)')}
       ${tile(fmtN(t.peopleTotal), 'people recognized', null, delta && deltaText(delta.people), ICONS.person, 'var(--s5)')}
     </div>
+    ${buildHighlightsHtml(d)}
     <h2>Photos × videos</h2>
     <div class="card">
       <div class="donut-row">
@@ -429,6 +494,12 @@ function buildSections(d, t, totalCount, totalBytes, delta) {
       <tr><th>Year</th><th class="num">Photos</th><th class="num">Videos</th><th class="num">Total</th><th class="num">Size</th><th></th></tr>
       ${d.byYear.map(y => `<tr><td class="mono">${y.key}</td><td class="num">${fmtN(y.photos)}</td><td class="num">${fmtN(y.videos)}</td><td class="num">${fmtN(y.count)}</td><td class="num">${fmtB(y.bytes)}</td>${barTd(100 * y.bytes / maxB, 'var(--s1)')}</tr>`).join('')}
     </table></div>`;
+  }
+  if (history && history.length >= 2) {
+    timelineHtml += `<h2>${ICONS.database}Library growth</h2><div class="card scroll">
+      <div style="color:var(--ink2);font-size:13px;margin-bottom:10px">Total size at each tracked refresh (${fmtN(history.length)} recorded)</div>
+      ${growthChart(history)}
+    </div>`;
   }
   s.timeline = timelineHtml || emptyCard('Not enough dated items to build a timeline.');
 
@@ -522,7 +593,7 @@ function render(rep) {
   $('serverline').textContent = `${d.server.url} · Immich ${d.server.version}`;
   $('when').textContent = `Updated ${new Date(rep.generatedAt).toLocaleString()}`;
 
-  const sections = buildSections(d, t, totalCount, totalBytes, computeDelta(rep));
+  const sections = buildSections(d, t, totalCount, totalBytes, computeDelta(rep), rep.history || []);
   const keepTab = TAB_META.some(x => x.key === activeTab) ? activeTab : 'overview';
 
   $('tabbar').innerHTML = TAB_META.map(x =>
