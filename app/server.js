@@ -20,6 +20,8 @@ const PORT = parseInt(process.env.PORT || '8080', 10);
 const UPLOAD_DIR = process.env.UPLOAD_DIR || '/upload';
 const CONFIG_FILE = path.join(DATA_DIR, 'config.json');
 const CACHE_FILE = path.join(DATA_DIR, 'report.json');
+const HISTORY_FILE = path.join(DATA_DIR, 'history.json');
+const HISTORY_CAP = 180; // one snapshot per refresh; caps the file at a few KB
 
 // env vars take precedence over the config file
 const ENV = {
@@ -38,7 +40,9 @@ const config = () => ({
 });
 const configured = () => { const c = config(); return !!(c.url && c.key); };
 
-let report = null; // { generatedAt, data }
+let report = null; // { generatedAt, data, previous, history }
+let history = [];
+try { history = JSON.parse(fs.readFileSync(HISTORY_FILE, 'utf8')); } catch {}
 const status = { running: false, phase: '', detail: '', startedAt: null, lastError: null };
 
 // ---------------- Immich API ----------------
@@ -326,9 +330,20 @@ async function refresh() {
   try {
     const previous = report ? { generatedAt: report.generatedAt, totals: report.data.totals } : null;
     const data = await collect();
-    report = { generatedAt: new Date().toISOString(), data, previous };
+    const generatedAt = new Date().toISOString();
+    const t = data.totals;
+    history.push({
+      at: generatedAt,
+      totalBytes: t.photoBytes + t.videoBytes,
+      totalCount: t.photoCount + t.videoCount,
+      photoBytes: t.photoBytes,
+      videoBytes: t.videoBytes,
+    });
+    if (history.length > HISTORY_CAP) history = history.slice(-HISTORY_CAP);
+    report = { generatedAt, data, previous, history };
     await fsp.mkdir(DATA_DIR, { recursive: true });
     await fsp.writeFile(CACHE_FILE, JSON.stringify(report));
+    await fsp.writeFile(HISTORY_FILE, JSON.stringify(history));
     console.log(`[refresh] report generated at ${report.generatedAt}`);
   } catch (e) {
     status.lastError = String((e && e.message) || e);

@@ -11,6 +11,9 @@ how it grew over the years, which albums and people weigh the most, and what is
 actually sitting on your disk.
 
 - 📊 Photos × videos — count and disk space breakdown, with a donut at a glance
+- ⭐ Highlights — busiest year, who appears most, biggest album, top device, largest video
+- 📈 Library growth chart across tracked refreshes, plus a delta on every Overview tile
+  since the last refresh
 - 💾 Disk usage by folder (originals, transcoded videos, thumbnails, DB backups)
 - 📅 Timeline of your library, month by month, back to your oldest photo
 - 🖼️ Album sizes — items, photos/videos split and real disk usage per album, searchable
@@ -19,7 +22,6 @@ actually sitting on your disk.
 - 📁 File types and cameras/devices
 - 👥 Per-user storage usage (multi-user servers, with an admin API key)
 - 🔗 Album/person/video rows deep-link straight to that item in Immich
-- 📈 Delta since your last refresh shown right on the Overview tiles
 - 🔄 Auto-refreshes on a schedule (default: every 24h) + manual refresh button
 - 🌗 Light/dark theme with a real toggle (not just "follows the OS"), color-coded
   tabs, no external dependencies, single tiny container
@@ -40,7 +42,7 @@ reads the upload folder from a read-only mount). It never modifies your library.
   <img src="docs/screenshots/videos.png" alt="Videos tab with sort and row-count controls" width="49%">
 </p>
 <p>
-  <img src="docs/screenshots/timeline.png" alt="Timeline tab" width="98%">
+  <img src="docs/screenshots/timeline.png" alt="Timeline tab with the library growth chart" width="98%">
 </p>
 
 ## Quick start (Docker)
